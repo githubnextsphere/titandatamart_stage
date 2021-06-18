@@ -1,5 +1,5 @@
 view: fact_cblines {
-  sql_table_name: stage_tbeaggregation.fact_cblines ;;
+  sql_table_name: prod2aggregation.fact_cblines ;;
 
   dimension: cb_id {
     type: string

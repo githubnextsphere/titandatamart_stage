@@ -1,5 +1,5 @@
 view: fact_emqualification {
-  sql_table_name: stage_tbeaggregation.fact_emqualification ;;
+  sql_table_name: prod2aggregation.fact_emqualification ;;
 
   dimension: distributorid {
     type: string
