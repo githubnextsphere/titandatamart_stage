@@ -63,3 +63,14 @@ explore: generationdetails_global {}
 explore: stage_factdownlinecount_roguedata {}
 
 explore: stage_memberstats_roguedata {}
+
+explore: member {
+  view_name: dim_member
+
+  label: "FBO Details By Country"
+  sql_always_where:  $(dim_memebr.membertype) = 'Distributor';;
+  access_filter: {
+    field: dim_member.opco
+    user_attribute: operatingcountry
+  }
+}
