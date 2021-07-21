@@ -824,6 +824,14 @@ view: dim_member {
     drill_fields: [detail*]
   }
 
+  measure: fbo_count {
+    label : "Count of FBOs"
+    description: "This field shows the count of FBOs"
+    type: count_distinct
+    sql: ${distributorid} ;;
+    drill_fields: [detail*]
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
