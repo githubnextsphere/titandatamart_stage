@@ -67,7 +67,7 @@ explore: stage_memberstats_roguedata {}
 explore: member {
   view_name: dim_member
 
-  label: "FBO Details By Country"
+  label: "FBO Details"
   sql_always_where:  $(dim_memebr.membertype) = 'Distributor';;
   access_filter: {
     field: dim_member.opco
