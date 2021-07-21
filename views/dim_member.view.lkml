@@ -1,6 +1,14 @@
 view: dim_member {
   sql_table_name: prod_as400.dim_member ;;
 
+  dimension: member_type {
+    description: "It shows if the member is of type Distributor or Retail Customer."
+    type: string
+    label: "Member Type"
+    group_label: "Primary Data"
+    sql: ${TABLE}.membertype ;;
+  }
+
   dimension: fbo_id {
     description: "FBO ID formatted with dashes"
     type: string
