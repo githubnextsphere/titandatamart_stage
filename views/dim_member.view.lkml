@@ -12,12 +12,28 @@ view: dim_member {
     html:  <a href="https://foreverliving.looker.com/dashboards/3502?Distributor%20Id= {{value|replace:"-",""}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ value  }} </u> </font></a> ;;
   }
 
-  dimension: fbo_name_first_last {
-    description: "FBO Name(First, Last)"
+  dimension: first {
     type: string
-    view_label: ""
+    description: "This field shows member first name"
+    group_label: "Primary Data"
+    sql: initcap(${TABLE}.memberfirstname) ;;
+    html: <font style="white-space: nowrap;">{{ value }} </font>;;
+  }
+
+  dimension: last {
+    type: string
+    description: "This field shows member first name"
+    group_label: "Primary Data"
+    sql: initcap(${TABLE}.memberlastname) ;;
+    html: <font style="white-space: nowrap;">{{ value }} </font>;;
+  }
+
+
+  dimension: fbo_name_first_last {
+    description: "FBO Name"
+    type: string
     label: "FBO Name"
-    sql: CONCAT(CONCAT(${memberfirstname}, ' '), ${memberlastname}) ;;
+    sql: CONCAT(CONCAT(${first}, ' '), ${last}) ;;
     html: <font style="white-space: nowrap;">{{ value  }}</font> ;;
   }
 
