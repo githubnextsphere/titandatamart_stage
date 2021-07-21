@@ -1,5 +1,5 @@
 view: fact_emindownline {
-  sql_table_name: stage_tbeaggregation.fact_emindownline ;;
+  sql_table_name: prod2aggregation.fact_emindownline ;;
 
   dimension: distributorid {
     type: string

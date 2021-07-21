@@ -1,5 +1,5 @@
 view: fact_emlines {
-  sql_table_name: stage_tbeaggregation.fact_emlines ;;
+  sql_table_name: prod2aggregation.fact_emlines ;;
 
   dimension: country {
     type: string

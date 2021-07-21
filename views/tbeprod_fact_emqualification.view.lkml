@@ -1,4 +1,4 @@
-view: fact_emqualification {
+view: tbeprod_fact_emqualification {
   sql_table_name: prod2aggregation.fact_emqualification ;;
 
   dimension: distributorid {

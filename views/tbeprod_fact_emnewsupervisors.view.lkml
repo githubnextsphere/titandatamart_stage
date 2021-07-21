@@ -1,4 +1,4 @@
-view: fact_emnewsupervisors {
+view: tbeprod_fact_emnewsupervisors {
   sql_table_name: prod2aggregation.fact_emnewsupervisors ;;
 
   dimension: country {

@@ -1,5 +1,5 @@
 view: fact_cb600ccindownline {
-  sql_table_name: stage_tbeaggregation.fact_cb600ccindownline ;;
+  sql_table_name: prod2aggregation.fact_cb600ccindownline ;;
 
   dimension: 600cc_id {
     type: string

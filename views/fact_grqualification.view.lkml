@@ -1,5 +1,5 @@
 view: fact_grqualification {
-  sql_table_name: stage_tbeaggregation.fact_grqualification ;;
+  sql_table_name: prod2aggregation.fact_grqualification ;;
 
   dimension: distributorid {
     type: string
@@ -57,11 +57,6 @@ view: fact_grqualification {
       year
     ]
     sql: ${TABLE}.validfrom ;;
-  }
-
-  dimension: waivers {
-    type: string
-    sql: ${TABLE}.waivers ;;
   }
 
   measure: count {

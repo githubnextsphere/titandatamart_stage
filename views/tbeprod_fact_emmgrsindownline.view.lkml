@@ -1,4 +1,4 @@
-view: fact_emmgrsindownline {
+view: tbeprod_fact_emmgrsindownline {
   sql_table_name: prod2aggregation.fact_emmgrsindownline ;;
 
   dimension: distributorid {

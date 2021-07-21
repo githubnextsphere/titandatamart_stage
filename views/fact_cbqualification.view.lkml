@@ -1,14 +1,9 @@
 view: fact_cbqualification {
-  sql_table_name: stage_tbeaggregation.fact_cbqualification ;;
+  sql_table_name: prod2aggregation.fact_cbqualification ;;
 
   dimension: 600ccmgrlines {
     type: number
     sql: ${TABLE}."600ccmgrlines" ;;
-  }
-
-  dimension: activeallmonths {
-    type: number
-    sql: ${TABLE}.activeallmonths ;;
   }
 
   dimension: cblines {
@@ -48,11 +43,6 @@ view: fact_cbqualification {
       year
     ]
     sql: ${TABLE}.entered ;;
-  }
-
-  dimension: f2dearner {
-    type: number
-    sql: ${TABLE}.f2dearner ;;
   }
 
   dimension: homecountry {
@@ -132,11 +122,6 @@ view: fact_cbqualification {
       year
     ]
     sql: ${TABLE}.validfrom ;;
-  }
-
-  dimension: waivers {
-    type: string
-    sql: ${TABLE}.waivers ;;
   }
 
   measure: count {
