@@ -1,4 +1,4 @@
-view: eagle_manager_incentives {
+view: tbeprod_eagle_manager_incentives {
   derived_table: {
     sql:
     With cte as
