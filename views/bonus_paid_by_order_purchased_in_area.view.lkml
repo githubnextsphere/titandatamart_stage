@@ -82,7 +82,10 @@ view: bonus_paid_by_order_purchased_in_area {
       recap.sponsorid = recap.distributorid
       and ({% parameter recap_param %} = 'Full' or {% parameter recap_param %} = 'Personal Purchase')
        ;;
+    datagroup_trigger: datagroup_9pm_arizona
+
   }
+
 
   measure: count {
     type: count
