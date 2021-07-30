@@ -13,9 +13,9 @@ view: bonus_paid_by_order_purchased_in_area {
               ord.purchasearea,
               ord.totalcasecredits,
               ord.productstandardretailprice
-              FROM prod2.fact_orderdetails ord
-              JOIN prod2.dim_location loc ON ord.operatingandhomecompanylocationkey = loc.locationkey
-              JOIN prod2.dim_member mem ON mem.distributorid = ord.distributorid
+              FROM prod_as400.fact_orderdetails ord
+              JOIN prod_as400.dim_location loc ON ord.operatingandhomecompanylocationkey = loc.locationkey
+              JOIN prod_as400.dim_member mem ON mem.distributorid = ord.distributorid
               and ord.isdelete <> 'D' and mem.isdelete <> 'D'
               WHERE ord.adjustedorderdate >= '2020-01-01'
               AND ord.productstandardretailprice > 0
@@ -41,7 +41,7 @@ view: bonus_paid_by_order_purchased_in_area {
       recap.processingyear,
       recap.processingmonth
       from OrderCTE cte
-      join prod2.dim_recap_monthlybonusdetail recap
+      join prod_as400.dim_recap_monthlybonusdetail recap
       on cte.ordernumber = recap.ordernumber
       and cte.operatingcompanycode = recap.operatingcompanycode
       and cte.processedyear = recap.processingyear
@@ -72,7 +72,7 @@ view: bonus_paid_by_order_purchased_in_area {
       recap.processingyear,
       recap.processingmonth
       from OrderCTE cte
-      join prod2.dim_recap_monthlybonusdetail recap
+      join prod_as400.dim_recap_monthlybonusdetail recap
       on cte.ordernumber = recap.ordernumber
       and cte.operatingcompanycode = recap.operatingcompanycode
       and cte.processedyear = recap.processingyear
