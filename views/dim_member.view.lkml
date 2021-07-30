@@ -110,6 +110,12 @@ view: dim_member {
                ELSE ''
           END;;
   }
+   dimension: enrollment_month_name {
+     description: "Enrollment Month Name"
+     label: "Enrollment Month Name"
+     type: date_month_name
+     sql: ${TABLE}.enrolmentdate  ;;
+   }
 
   dimension: active {
     type: string
