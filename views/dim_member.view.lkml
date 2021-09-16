@@ -1,5 +1,5 @@
 view: dim_member {
-  sql_table_name: stage_tbe.dim_member ;;
+  sql_table_name: uat_tbe.dim_member ;;
 
   dimension: fbo_id {
     description: "FBO ID formatted with dashes"

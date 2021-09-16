@@ -30,10 +30,10 @@ view: vw_chairman_bonus_qualifiers {
         cbq. mgrfirstmonth mgr_first_month,
         cbq. mgrfirstmonthopengroupcc mgr_1st_month_open_group_cc,
         cbq. mgrfirstmonthtotalcc as mgr_1st_month_total_cc
-      from stage_tbeaggregation.fact_cbindownline fc
-join stage_tbe.dim_member mem on
+      from uat_tbeaggregation.fact_cbindownline fc
+join uat_tbe.dim_member mem on
   mem.distributorid = fc.cb_id
-JOIN stage_tbeaggregation.fact_cbqualification cbq on
+JOIN uat_tbeaggregation.fact_cbqualification cbq on
   cbq.distributorid = fc.cb_id
    and cbq.period = {% parameter parameter_year  %}
       WHERE

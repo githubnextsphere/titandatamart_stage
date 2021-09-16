@@ -33,8 +33,8 @@ view: chairmans_bonus {
         cbq.activeallmonths,
         cbq.f2dearner,
         cbq.waivers
-      from stage_tbeaggregation.fact_cbqualification cbq
-      inner join stage_tbe.dim_member mem
+      from uat_tbeaggregation.fact_cbqualification cbq
+      inner join uat_tbe.dim_member mem
         on mem.distributorid = cbq.distributorid
       WHERE cbq.period = {% parameter parameter_year  %}
       ;;

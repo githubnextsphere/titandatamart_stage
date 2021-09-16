@@ -25,8 +25,8 @@ view: vw_cc_summary_by_month {
           when {% parameter parameter_year  %} = 'Last Period'
           then EXTRACT(YEAR FROM CURRENT_DATE) -1
           end AS yearfilter
-          from stage_tbe.dim_monthlycc mon
-          join stage_tbeaggregation.fact_emqualification em
+          from uat_tbe.dim_monthlycc mon
+          join uat_tbeaggregation.fact_emqualification em
           on mon.distributorid = em.distributorid
           where
           em.distributorid = Replace(Replace({% parameter parameter_fboid %},'-',''),' ','')

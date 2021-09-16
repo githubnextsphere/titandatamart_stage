@@ -1,5 +1,5 @@
 view: dim_monthlycc {
-  sql_table_name: stage_tbe.dim_monthlycc ;;
+  sql_table_name: uat_tbe.dim_monthlycc ;;
 
   dimension: 4cc_active {
     description: "This field shows 4cc active(yes/no)."

@@ -11,14 +11,14 @@ view: vw_eagle_manager_lines {
         fe.emlevel,
         feq.downlineemcount
       FROM
-        stage_tbeaggregation.fact_emlines fe
-      JOIN stage_tbe.dim_member mem on
+        uat_tbeaggregation.fact_emlines fe
+      JOIN uat_tbe.dim_member mem on
         mem.distributorid = fe.frontlineid
-      JOIN stage_tbe.dim_country dc on
+      JOIN uat_tbe.dim_country dc on
         fe.country = dc.isocodethree
-      JOIN stage_tbe.dim_member m on
+      JOIN uat_tbe.dim_member m on
         m.distributorid = fe.em_id
-      JOIN stage_tbeaggregation.fact_emqualification feq on
+      JOIN uat_tbeaggregation.fact_emqualification feq on
         feq.distributorid = fe.em_id
         and
         feq.period =  {% parameter parameter_year  %}

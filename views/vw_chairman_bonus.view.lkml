@@ -3,7 +3,7 @@ view: vw_chairman_bonus {
     sql: with cte as(
       SELECT       distinct cc.distributorid,
               Max(cc.chairmansbonusglobalcc)    AS chairmansbonusglobalcc
-      FROM            stage_tbe.dim_yearlycc cc
+      FROM            uat_tbe.dim_yearlycc cc
       WHERE
       Isnull(cc.isdelete, '') = ''
       AND
@@ -26,7 +26,7 @@ view: vw_chairman_bonus {
                       cc.operatingcompanycode,
                       cc.homecompanycode,
                       Replace(Quote_literal(Replace(Trim(cc.downlinechairmansbonusqualifiers),'|', ',')),',',Quote_literal(',')) AS downlinechairmansbonusqualifiers
-      FROM            stage_tbe.dim_yearlycc cc
+      FROM            uat_tbe.dim_yearlycc cc
       join cte c on c.distributorid = cc.distributorid
       WHERE
       Isnull(cc.isdelete, '') = ''

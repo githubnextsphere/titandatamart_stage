@@ -21,8 +21,8 @@ view: vw_eagle_managers {
       fe.MgrFirstMonth as "Mgr 1st Mo",
       fe.MgrFirstMonthTotalCC as "Mgr 1st Mo Total CC",
       dm.homecompanycode
-      FROM   stage_tbeaggregation.fact_emqualification fe
-      inner join stage_tbe.dim_member dm
+      FROM   uat_tbeaggregation.fact_emqualification fe
+      inner join uat_tbe.dim_member dm
       on dm.DistributorId = fe.DistributorId
       and dm.isdelete <> 'D'
       and ({% condition  opcofilter %} dm.operatingcompanycode {% endcondition %})
@@ -48,10 +48,10 @@ view: vw_eagle_managers {
       fe.MgrFirstMonth as "Mgr 1st Mo",
       fe.MgrFirstMonthTotalCC as "Mgr 1st Mo Total CC",
       dm.homecompanycode
-      FROM   stage_tbeaggregation.fact_emqualification fe
-      inner join stage_tbe.dim_sponsor ds
+      FROM   uat_tbeaggregation.fact_emqualification fe
+      inner join uat_tbe.dim_sponsor ds
       on ds.distributorid = fe.DistributorId
-      inner join stage_tbe.dim_member dm
+      inner join uat_tbe.dim_member dm
       on dm.DistributorId = fe.DistributorId
       and dm.isdelete <> 'D'
       and ({% condition  opcofilter %} fe.qualifyingcountry {% endcondition %})

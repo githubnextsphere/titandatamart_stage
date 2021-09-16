@@ -24,10 +24,10 @@ view: vw_em_cc_summary_by_country {
                   end) as "total_cc",
                   {% parameter parameter_year  %}  AS yearfilter,
               emqualification.qualifyingcountry as "qualifying_country"
-              from stage_tbe.dim_monthlycc monthlycc
-              join stage_tbeaggregation.fact_emqualification emqualification
+              from uat_tbe.dim_monthlycc monthlycc
+              join uat_tbeaggregation.fact_emqualification emqualification
               on monthlycc.distributorid=emqualification.distributorid
-              join stage_tbe.dim_country country
+              join uat_tbe.dim_country country
               on monthlycc.operatingcompanycode=country.isocodethree
                where
                monthlycc.distributorid = Replace(Replace({{fboid_param._parameter_value}},'-',''),' ','')

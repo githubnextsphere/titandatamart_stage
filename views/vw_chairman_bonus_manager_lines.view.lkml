@@ -10,9 +10,9 @@ view: vw_chairman_bonus_manager_lines {
       fc.cblevel as "CB Level",
       fc.downlinecbcount as "Downline CB Managers",
       fc."period"
-      from stage_tbeaggregation.fact_cblines fc
-      Join stage_tbe.dim_member dm on dm.distributorid =fc.frontlineid
-      Join stage_tbe.dim_member cb  on cb.distributorid =fc.cb_id
+      from uat_tbeaggregation.fact_cblines fc
+      Join uat_tbe.dim_member dm on dm.distributorid =fc.frontlineid
+      Join uat_tbe.dim_member cb  on cb.distributorid =fc.cb_id
       WHERE
         fc.distributorid = Replace(Replace({{ fboid_param._parameter_value }},'-',''),' ','')
         and fc.period = {% parameter parameter_year  %}

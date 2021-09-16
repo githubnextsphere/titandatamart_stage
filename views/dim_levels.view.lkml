@@ -1,5 +1,5 @@
 view: dim_levels {
-  sql_table_name: stage_tbe.dim_levels ;;
+  sql_table_name: uat_tbe.dim_levels ;;
 
   dimension: active {
     type: yesno

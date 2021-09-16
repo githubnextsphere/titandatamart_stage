@@ -22,10 +22,10 @@ view: vw_downline_eagle_manager {
       feq.MgrFirstMonth as "Mgr 1st Mo",
       feq.MgrFirstMonthTotalCC as "Mgr 1st Mo Total CC"
       FROM
-        stage_tbeaggregation.fact_emindownline fe
-      JOIN stage_tbe.dim_member mem on
+        uat_tbeaggregation.fact_emindownline fe
+      JOIN uat_tbe.dim_member mem on
         mem.distributorid = fe.em_id
-      JOIN stage_tbeaggregation.fact_emqualification feq on
+      JOIN uat_tbeaggregation.fact_emqualification feq on
         feq.distributorid = fe.em_id
          and feq.period = {% parameter parameter_year  %}
       WHERE
