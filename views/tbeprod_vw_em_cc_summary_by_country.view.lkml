@@ -22,16 +22,12 @@ view: tbeprod_vw_em_cc_summary_by_country {
                       then emqualification.mgrfirstmonthtotalcc
                       else 0
                   end) as "total_cc",
-                  case when {% parameter parameter_year  %} = 'Current Period'
-                then EXTRACT(YEAR FROM CURRENT_DATE)
-                when {% parameter parameter_year  %} = 'Last Period'
-                then EXTRACT(YEAR FROM CURRENT_DATE) -1
-                end AS yearfilter,
+                 {% parameter parameter_year  %} AS yearfilter,
               emqualification.qualifyingcountry as "qualifying_country"
-              from prod2.dim_monthlycc monthlycc
-              join prod2aggregation.fact_emqualification emqualification
+              from prod_as400.dim_monthlycc monthlycc
+              join prodaggregation_sql.fact_emqualification emqualification
               on monthlycc.distributorid=emqualification.distributorid
-              join prod2.dim_country country
+              join prod_as400.dim_country country
               on monthlycc.operatingcompanycode=country.isocodethree
                where
                monthlycc.distributorid = Replace(Replace({{fboid_param._parameter_value}},'-',''),' ','')
@@ -125,9 +121,10 @@ view: tbeprod_vw_em_cc_summary_by_country {
 
   parameter: parameter_year {
     label: "Period"
-    type: string
-    allowed_value: { value: "Current Period" label:"May-2020 to April-2021"}
-    default_value: "Current Period"
+    type: number
+    allowed_value: { value: "2021" label:"May-2020 to April-2021"}
+    allowed_value: { value: "2022" label:"May-2021 to April-2022"}
+    default_value: "2022"
   }
 
   parameter: fboid_param {
@@ -157,7 +154,7 @@ view: tbeprod_vw_em_cc_summary_by_country {
   }
 
   dimension: period {
-    type: string
+    type: number
     sql:  {% parameter parameter_year %} ;;
   }
 

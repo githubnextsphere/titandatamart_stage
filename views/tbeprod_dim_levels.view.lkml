@@ -1,5 +1,5 @@
 view: tbeprod_dim_levels {
-  sql_table_name: prod2.dim_levels ;;
+  sql_table_name: prod_as400.dim_levels ;;
 
   dimension: active {
     type: yesno

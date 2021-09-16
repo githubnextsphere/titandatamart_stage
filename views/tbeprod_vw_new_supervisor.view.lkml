@@ -12,35 +12,20 @@ view: tbeprod_vw_new_supervisor {
         mem2.lastmoveupdate as moveupdate,
         supervisor.country,
         fem.mgrfirstmonth,
-        case
-          when {% parameter parameter_year  %} = 'Current Period' then EXTRACT(YEAR
-        FROM
-          CURRENT_DATE)
-          when {% parameter parameter_year  %} = 'Next Period' then EXTRACT(YEAR
-        FROM
-          CURRENT_DATE) +1
-        end as yearfilter
+        {% parameter parameter_year  %}  as yearfilter
       from
-        prod2aggregation.fact_emqualification fem
-        inner join prod2.dim_member mem1 on
+        prodaggregation_sql.fact_emqualification fem
+        inner join prod_as400.dim_member mem1 on
         fem.distributorid = mem1.distributorid
         and fem.distributorid = replace(replace({{fboid_param._parameter_value}},'-',''),' ','')
         and mem1.isdelete <>'D'
-        left join prod2aggregation.fact_emnewsupervisors supervisor
+        left join prodaggregation_sql.fact_emnewsupervisors supervisor
         on fem.distributorid = supervisor.distributorid
         and fem.period = supervisor.period
-        left join prod2.dim_member mem2 on
+        left join prod_as400.dim_member mem2 on
         mem2.distributorid = supervisor.supervisorid
         and mem2.isdelete <>'D'
-      where
-        case
-          when {% parameter parameter_year  %} = 'Current Period' then fem.period = EXTRACT(YEAR
-        FROM
-          CURRENT_DATE)
-          when {% parameter parameter_year  %} = 'Next Period' then fem.period = EXTRACT(YEAR
-        FROM
-          CURRENT_DATE) +1
-        end
+      where fem.period = {% parameter parameter_year  %}
         )
         select
         distinct supd."FBO ID",
@@ -58,10 +43,10 @@ view: tbeprod_vw_new_supervisor {
         supd.mgrfirstmonth,
         supd.yearfilter
       from
-        prod2.dim_sponsor spons
+        prod_as400.dim_sponsor spons
       left join superviordetails supd on
         spons.sponsordistributorid = supd."FBO ID"
-      join prod2.dim_member dm on
+      join prod_as400.dim_member dm on
         dm.distributorid = spons.distributorid
         and dm.isdelete <>'D'
         where  supd."period" <= 2021
@@ -88,10 +73,10 @@ view: tbeprod_vw_new_supervisor {
         sd.mgrfirstmonth,
         sd.yearfilter
       from
-        prod2.dim_sponsor spon
+        prod_as400.dim_sponsor spon
       left join superviordetails sd on
         spon.sponsordistributorid = sd."FBO ID"
-      join prod2.dim_member m on
+      join prod_as400.dim_member m on
         m.distributorid = spon.distributorid
         and m.enrolmentdate between concat(yearfilter-1, '-05-01') and concat(yearfilter, '-04-30')
         and m.isdelete <>'D'
@@ -109,12 +94,7 @@ view: tbeprod_vw_new_supervisor {
         moveupdate,
         country,
         mgrfirstmonth,
-        case
-          when {% parameter parameter_year  %} = 'Current Period' then
-            EXTRACT(YEAR FROM CURRENT_DATE)
-          when {% parameter parameter_year  %}= 'Next Period' then
-            EXTRACT(YEAR FROM CURRENT_DATE) +1
-        end as yearfilter
+        {% parameter parameter_year  %} as yearfilter
         FROM superviordetails
         where "New Supervisor ID" is not null
        ;;
@@ -126,10 +106,10 @@ view: tbeprod_vw_new_supervisor {
   }
 
   parameter: parameter_year {
-    type: string
-    allowed_value: { value: "Current Period" label: "May-2020 to April-2021"}
-    allowed_value: { value: "Next Period" label: "May-2021 to April-2022"}
-    default_value: "Current Period"
+    type: number
+    allowed_value: { value: "2021" label: "May-2020 to April-2021"}
+    allowed_value: { value: "2022" label: "May-2021 to April-2022"}
+    default_value: "2022"
   }
 
   parameter: fboid_param {

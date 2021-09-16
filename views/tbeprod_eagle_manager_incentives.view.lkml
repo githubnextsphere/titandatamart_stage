@@ -1,4 +1,4 @@
-view: eagle_manager_incentives {
+view: tbeprod_eagle_manager_incentives {
   derived_table: {
     sql:
     With cte as
@@ -17,7 +17,7 @@ view: eagle_manager_incentives {
           (LENGTH(Replace(Trim(cc.downlineeaglemanagerqualifiers),'|', '')))/12 AS numberofdownlineeaglemanagers,
           ROW_NUMBER() over(PARTITION BY distributorid,cc.operatingcompanycode ORDER BY cc.eaglemanagertotalcc DESC,
           cc.homecountryeaglemanagercc DESC, cc.homecountryeaglemanagercc DESC, cc.nonhomecountryeaglemanagercc DESC) as rown
-        FROM prod2.dim_monthlycc cc
+        FROM prod_as400.dim_monthlycc cc
         where 1=1
           and Isnull(cc.isdelete,'') = ''
           and (
@@ -35,7 +35,7 @@ view: eagle_manager_incentives {
       c.totalglobalnewcc,c.numberofeaglemanagersrequired,c.numberofnewsupervisors,c.eaglemanagers,c.downlineeaglemanagers,
       c.numberofdownlineeaglemanagers
     from cte c
-    join prod2.dim_member m
+    join prod_as400.dim_member m
       on m.distributorid=c.distributorid
     WHERE c.rown=1
       and {% condition memopco %} m.operatingcompanycode {% endcondition %}

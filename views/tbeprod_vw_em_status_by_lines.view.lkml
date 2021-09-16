@@ -29,15 +29,10 @@ view: tbeprod_vw_em_status_by_lines {
           e.MgrFirstMonth as "MGR 1st Mo",
           e.MgrFirstMonthTotalCC as "MGR 1st Mo Total CC",
           m3.operatingcompanycode as "Upline FBO OpCO"
-      FROM prod2aggregation.fact_emmgrsindownline d
-      inner join prod2aggregation.fact_emqualification e
+      FROM prodaggregation_sql.fact_emmgrsindownline d
+      inner join prodaggregation_sql.fact_emqualification e
       on LPAD(d.Mgr_Id,12,0) = e.DistributorId
-      and
-      case when {% parameter parameter_year  %} = 'Current Period'
-                then  e.Period = EXTRACT(YEAR FROM CURRENT_DATE)
-            when {% parameter parameter_year  %} = 'Last Period'
-                then  e.Period = EXTRACT(YEAR FROM CURRENT_DATE) -1
-      end
+      and  e.Period ={% parameter parameter_year  %}
       inner join prod2.dim_member m
       on m.DistributorId = e.DistributorId
       inner join prod2.dim_member m2
@@ -47,22 +42,13 @@ view: tbeprod_vw_em_status_by_lines {
       left join prod2aggregation.fact_emlines e2
       on e2.FrontLineID = LPAD(d.FrontLineID,12,0)
       and e2.Country = e.QualifyingCountry
-      and case when {% parameter parameter_year  %} = 'Current Period'
-                then  e2.Period = EXTRACT(YEAR FROM CURRENT_DATE)
-              when {% parameter parameter_year  %} = 'Last Period'
-                then  e2.Period = EXTRACT(YEAR FROM CURRENT_DATE) -1
-      end
+      and e2.Period = {% parameter parameter_year  %}
       where
       case when {% parameter exclude_emlines_param  %} = 'Yes' then
            e2.DistributorId is null
           else 1=1
       end
-      and
-      case when {% parameter parameter_year  %} = 'Current Period'
-                then  d.Period = EXTRACT(YEAR FROM CURRENT_DATE)
-            when {% parameter parameter_year  %} = 'Last Period'
-                then  d.Period = EXTRACT(YEAR FROM CURRENT_DATE) -1
-      end
+      and  d.Period = {% parameter parameter_year  %}
       order by d.FrontLineID, e.TotalCCGlobalCap, e.NewCCGlobalCap
        ;;
 }
@@ -588,9 +574,10 @@ view: tbeprod_vw_em_status_by_lines {
   }
 
   parameter: parameter_year {
-    type: string
-    allowed_value: { label: "May-2020 to April-2021" value:"Current Period" }
-    default_value: "Current Period"
+    type: number
+    allowed_value: { label: "May-2020 to April-2021" value:"2021" }
+    allowed_value: { label: "May-2021 to April-2022" value:"2022" }
+    default_value: "2022"
   }
 
   parameter: exclude_emlines_param {

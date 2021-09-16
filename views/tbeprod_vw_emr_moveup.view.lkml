@@ -36,10 +36,10 @@ view: tbeprod_vw_emr_moveup {
                                 WHEN ml.currentlevel='Diamond Centurion Manager' THEN ml.diamondcenturionmanagerlevel_processingyear
                 END) AS year ,
                     Count( Distinct m.distributorid)
-FROM            prod2.dim_member m
-JOIN            prod2.dim_sponsor s
+FROM            prod_as400.dim_member m
+JOIN            prod_as400.dim_sponsor s
 ON              s.distributorid = m.distributorid
-LEFT JOIN       prod2.dim_memberlevel ml
+LEFT JOIN       prod_as400.dim_memberlevel ml
 ON              m.distributorid=ml.distributorid
 WHERE           m.active = 'true'
 AND             s.active = 'true'

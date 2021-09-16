@@ -1,5 +1,5 @@
 view: tbeprod_dim_member {
-  sql_table_name: prod2.dim_member ;;
+  sql_table_name: prod_as400.dim_member ;;
 
   dimension: fbo_id {
     description: "FBO ID formatted with dashes"

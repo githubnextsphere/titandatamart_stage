@@ -1,5 +1,5 @@
 view: tbeprod_fact_emnewsupervisors {
-  sql_table_name: prod2aggregation.fact_emnewsupervisors ;;
+  sql_table_name: prodaggregation_sql.fact_emnewsupervisors ;;
 
   dimension: country {
     type: string

@@ -20,13 +20,9 @@ view: tbeprod_vw_cc_summary_by_month {
               then em.mgrfirstmonthtotalcc
               else 0
           end as "totalccmtd",
-          case when {% parameter parameter_year  %} = 'Current Period'
-          then EXTRACT(YEAR FROM CURRENT_DATE)
-          when {% parameter parameter_year  %} = 'Last Period'
-          then EXTRACT(YEAR FROM CURRENT_DATE) -1
-          end AS yearfilter
-          from prod2.dim_monthlycc mon
-          join prod2aggregation.fact_emqualification em
+          {% parameter parameter_year  %} AS yearfilter
+          from prod_as400.dim_monthlycc mon
+          join prodaggregation_sql.fact_emqualification em
           on mon.distributorid = em.distributorid
           where
           em.distributorid = Replace(Replace({% parameter parameter_fboid %},'-',''),' ','')
@@ -81,10 +77,11 @@ view: tbeprod_vw_cc_summary_by_month {
   }
 
   parameter: parameter_year {
-    type: string
+    type: number
     label: "Period"
-    allowed_value: { value: "Current Period" label:"May-2020 to April-2021"}
-    default_value: "Current Period"
+    allowed_value: { value: "2021" label:"May-2020 to April-2021"}
+    allowed_value: { value: "2022" label:"May-2021 to April-2022"}
+    default_value: "2022"
   }
 
   parameter: parameter_fboid {

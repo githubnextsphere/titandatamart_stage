@@ -18,13 +18,9 @@ view: tbeprod_vw_chairman_bonus_cc_summary_by_month {
                     then cb.mgrfirstmonthopengroupcc
                     else 0
                 end as "totalcc",
-                case when {% parameter parameter_year  %} = 'Current Year'
-                then EXTRACT(YEAR FROM CURRENT_DATE)
-                when {% parameter parameter_year  %} = 'Last Year'
-                then EXTRACT(YEAR FROM CURRENT_DATE) -1
-                end AS yearfilter
-                from prod2.dim_monthlycc mon
-                join prod2aggregation.fact_cbqualification cb
+                {% parameter parameter_year  %} AS yearfilter
+                from prod_as400.dim_monthlycc mon
+                join prodaggregation_sql.fact_cbqualification cb
                 on mon.distributorid = cb.distributorid
                 where
                 cb.distributorid = Replace(Replace({{parameter_fboid._parameter_value}},'-',''),' ','')
@@ -75,10 +71,11 @@ view: tbeprod_vw_chairman_bonus_cc_summary_by_month {
 
   parameter: parameter_year {
     label: "Period"
-    type: string
-    allowed_value: { value: "Current Year"}
-    allowed_value: { value: "Last Year"}
-    default_value: "Current Year"
+    type: number
+    allowed_value: { value: "2022"}
+    allowed_value: { value: "2021"}
+    allowed_value: { value: "2020"}
+    default_value: "2022"
   }
 
   parameter: parameter_fboid {

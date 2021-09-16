@@ -21,8 +21,8 @@ view: tbeprod_vw_global_rally {
                   OVER (
                     partition BY cc.distributorid,processingyear
                     ORDER BY globalcasecredits DESC) AS row
-               FROM prod2.dim_member mem
-               JOIN prod2.dim_monthlycc cc ON mem.distributorid = cc.distributorid
+               FROM prod_as400.dim_member mem
+               JOIN prod_as400.dim_monthlycc cc ON mem.distributorid = cc.distributorid
                WHERE cc.globalcasecredits <> 0 AND cc.isdelete <> 'D'
               and {% condition processingyear %} cc.processingyear {% endcondition %}
               and {% condition opco %} mem.operatingcompanycode {% endcondition %}
