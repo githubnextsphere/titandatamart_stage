@@ -22,25 +22,15 @@ view: vw_downline_eagle_manager {
       feq.MgrFirstMonth as "Mgr 1st Mo",
       feq.MgrFirstMonthTotalCC as "Mgr 1st Mo Total CC"
       FROM
-        prod2aggregation.fact_emindownline fe
-      JOIN prod2.dim_member mem on
+        stage_tbeaggregation.fact_emindownline fe
+      JOIN stage_tbe.dim_member mem on
         mem.distributorid = fe.em_id
-      JOIN prod2aggregation.fact_emqualification feq on
+      JOIN stage_tbeaggregation.fact_emqualification feq on
         feq.distributorid = fe.em_id
-         and
-        case  when {% parameter parameter_year  %} = 'Current Period'
-                then  feq.period =  EXTRACT(YEAR FROM CURRENT_DATE)
-              when {% parameter parameter_year  %} = 'Last Period'
-                  then  feq.period =  EXTRACT(YEAR FROM CURRENT_DATE) -1
-        end
+         and feq.period = {% parameter parameter_year  %}
       WHERE
        fe.distributorid = Replace(Replace({{ fboid_param._parameter_value }},'-',''),' ','')
-         and
-        case  when {% parameter parameter_year  %} = 'Current Period'
-                then  fe.period =  EXTRACT(YEAR FROM CURRENT_DATE)
-              when {% parameter parameter_year  %} = 'Last Period'
-                  then  fe.period =  EXTRACT(YEAR FROM CURRENT_DATE) -1
-        end
+         and fe.period = {% parameter parameter_year  %}
        ;;
   }
 
@@ -270,10 +260,10 @@ view: vw_downline_eagle_manager {
 
     parameter: parameter_year {
       label: "Period"
-      type: string
-      allowed_value: { value: "Current Period" label: "May-2020 to April-2021"}
-      # allowed_value: { value: "Last Period" }
-      default_value: "Current Period"
+      type: number
+      allowed_value: { value: "2021" label: "May-2020 to April-2021"}
+      allowed_value: { value: "2022" label: "May-2021 to April-2022"}
+      default_value:"2022"
     }
 
     parameter: fboid_param {

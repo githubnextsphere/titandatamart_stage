@@ -6,8 +6,8 @@ view: vw_cc_required_moveup {
       case when total_ccs >=2 then 0
         else (2-total_ccs)
       end as cc_required_to_moveup
-      from prod2.dim_member m
-      join prod2.fact_orderdetails f on f.distributorid = m.distributorid
+      from stage_tbe.dim_member m
+      join stage_tbe.fact_orderdetails f on f.distributorid = m.distributorid
       and f.isdelete <> 'D' and m.isdelete <> 'D'
       and m.memberlevel in ('Preferred Customer','Novus Customer')
       and m.memberstatus IN ('Active',

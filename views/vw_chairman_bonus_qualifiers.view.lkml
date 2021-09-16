@@ -30,25 +30,15 @@ view: vw_chairman_bonus_qualifiers {
         cbq. mgrfirstmonth mgr_first_month,
         cbq. mgrfirstmonthopengroupcc mgr_1st_month_open_group_cc,
         cbq. mgrfirstmonthtotalcc as mgr_1st_month_total_cc
-      from prod2aggregation.fact_cbindownline fc
-join prod2.dim_member mem on
+      from stage_tbeaggregation.fact_cbindownline fc
+join stage_tbe.dim_member mem on
   mem.distributorid = fc.cb_id
-JOIN prod2aggregation.fact_cbqualification cbq on
+JOIN stage_tbeaggregation.fact_cbqualification cbq on
   cbq.distributorid = fc.cb_id
-   and
-        case  when {% parameter parameter_year  %} = 'Current Year'
-                then  cbq.period =  EXTRACT(YEAR FROM CURRENT_DATE)
-              when {% parameter parameter_year  %} = 'Last Year'
-                  then  cbq.period =  EXTRACT(YEAR FROM CURRENT_DATE) -1
-        end
+   and cbq.period = {% parameter parameter_year  %}
       WHERE
           fc.distributorid = Replace(Replace({{ fboid_param._parameter_value }},'-',''),' ','')
-          and
-          case  when {% parameter parameter_year  %} = 'Current Year'
-                  then  fc.period =  EXTRACT(YEAR FROM CURRENT_DATE)
-                when {% parameter parameter_year  %} = 'Last Year'
-                    then  fc.period =  EXTRACT(YEAR FROM CURRENT_DATE) -1
-          end
+          and fc.period = {% parameter parameter_year  %}
  ;;
   }
 
@@ -274,10 +264,11 @@ JOIN prod2aggregation.fact_cbqualification cbq on
 
   parameter: parameter_year {
     label: "Period"
-    type: string
-    allowed_value: { value: "Current Year" label:"Current Year"}
-    allowed_value: { value: "Last Year" label:"Last Year" }
-    default_value: "Current Year"
+    type: number
+    allowed_value: { value: "2020"}
+    allowed_value: { value: "2021" }
+    allowed_value: {value:"2022"}
+    default_value: "2022"
   }
 
   set: detail {

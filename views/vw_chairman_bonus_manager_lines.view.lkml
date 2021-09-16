@@ -10,17 +10,12 @@ view: vw_chairman_bonus_manager_lines {
       fc.cblevel as "CB Level",
       fc.downlinecbcount as "Downline CB Managers",
       fc."period"
-      from prod2aggregation.fact_cblines fc
-      Join prod2.dim_member dm on dm.distributorid =fc.frontlineid
-      Join prod2.dim_member cb  on cb.distributorid =fc.cb_id
+      from stage_tbeaggregation.fact_cblines fc
+      Join stage_tbe.dim_member dm on dm.distributorid =fc.frontlineid
+      Join stage_tbe.dim_member cb  on cb.distributorid =fc.cb_id
       WHERE
         fc.distributorid = Replace(Replace({{ fboid_param._parameter_value }},'-',''),' ','')
-        and
-        case when {% parameter parameter_year  %} = 'Current Year'
-          then  fc.period =  EXTRACT(YEAR FROM CURRENT_DATE)
-            when {% parameter parameter_year  %} = 'Last Year'
-          then  fc.period =  EXTRACT(YEAR FROM CURRENT_DATE) -1
-        end
+        and fc.period = {% parameter parameter_year  %}
       ;;
   }
 
@@ -31,10 +26,11 @@ view: vw_chairman_bonus_manager_lines {
 
   parameter: parameter_year {
     label: "Period"
-    type: string
-    allowed_value: { value: "Current Year" label:"Current Year"}
-    allowed_value: { value: "Last Year" label:"Last Year" }
-    default_value: "Current Year"
+    type: number
+    allowed_value: { value: "2020"}
+    allowed_value: { value: "2021" }
+    allowed_value: {value:"2022"}
+    default_value: "2022"
   }
 
   parameter: fboid_param {

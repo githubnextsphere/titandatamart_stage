@@ -32,15 +32,11 @@ view: vw_chairmanbonus_cc_summary_by_country {
                   end
                    as "open_group_cc",
               cbqualification.qualifyingcountry as "qualifying_country",
-              case when {% parameter parameter_year  %} = 'Current Year'
-                   then EXTRACT(YEAR FROM CURRENT_DATE)
-                   when {% parameter parameter_year  %} = 'Last Year'
-                   then EXTRACT(YEAR FROM CURRENT_DATE) -1
-                   end AS yearfilter
-              from prod2.dim_monthlycc monthlycc
-              join prod2aggregation.fact_cbqualification cbqualification
+              {% parameter parameter_year  %}  AS yearfilter
+              from stage_tbe.dim_monthlycc monthlycc
+              join stage_tbeaggregation.fact_cbqualification cbqualification
               on monthlycc.distributorid=cbqualification.distributorid
-              join prod2.dim_country country
+              join stage_tbe.dim_country country
               on monthlycc.operatingcompanycode=country.isocodethree
               where
               monthlycc.distributorid = Replace(Replace({{fboid_param._parameter_value}},'-',''),' ','')
@@ -134,10 +130,11 @@ view: vw_chairmanbonus_cc_summary_by_country {
 
   parameter: parameter_year {
     label: "Period"
-    type: string
-    allowed_value: { value: "Current Year"}
-    allowed_value: { value: "Last Year"}
-    default_value: "Current Year"
+    type: number
+    allowed_value: { value: "2021"}
+    allowed_value: { value: "2020"}
+    allowed_value: { value: "2022"}
+    default_value: "2022"
   }
 
   parameter: fboid_param {

@@ -21,8 +21,8 @@ view: vw_eagle_managers {
       fe.MgrFirstMonth as "Mgr 1st Mo",
       fe.MgrFirstMonthTotalCC as "Mgr 1st Mo Total CC",
       dm.homecompanycode
-      FROM   prod2aggregation.fact_emqualification fe
-      inner join prod2.dim_member dm
+      FROM   stage_tbeaggregation.fact_emqualification fe
+      inner join stage_tbe.dim_member dm
       on dm.DistributorId = fe.DistributorId
       and dm.isdelete <> 'D'
       and ({% condition  opcofilter %} dm.operatingcompanycode {% endcondition %})
@@ -48,10 +48,10 @@ view: vw_eagle_managers {
       fe.MgrFirstMonth as "Mgr 1st Mo",
       fe.MgrFirstMonthTotalCC as "Mgr 1st Mo Total CC",
       dm.homecompanycode
-      FROM   prod2aggregation.fact_emqualification fe
-      inner join prod2.dim_sponsor ds
+      FROM   stage_tbeaggregation.fact_emqualification fe
+      inner join stage_tbe.dim_sponsor ds
       on ds.distributorid = fe.DistributorId
-      inner join prod2.dim_member dm
+      inner join stage_tbe.dim_member dm
       on dm.DistributorId = fe.DistributorId
       and dm.isdelete <> 'D'
       and ({% condition  opcofilter %} fe.qualifyingcountry {% endcondition %})
@@ -197,7 +197,7 @@ view: vw_eagle_managers {
       sql: ${TABLE}."total cc qc" ;;
       value_format: "#,##0.000"
       html: {% if value != 0 %}
-          <a href="https://foreverliving.looker.com/dashboards-next/6218?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+          <a href="https://foreverliving.looker.com/dashboards-next/6486?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
           {% else %}
           {{rendered_value}}
           {% endif %} ;;
@@ -209,7 +209,7 @@ view: vw_eagle_managers {
       sql: ${TABLE}."new cc oqc" ;;
       value_format:"#,##0.000"
       html: {% if value != 0 %}
-          <a href="https://foreverliving.looker.com/dashboards-next/6218?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+          <a href="https://foreverliving.looker.com/dashboards-next/6486?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
           {% else %}
           {{rendered_value}}
           {% endif %} ;;
@@ -221,7 +221,7 @@ view: vw_eagle_managers {
       sql: ${TABLE}."new cc qc" ;;
       value_format:"#,##0.000"
       html: {% if value != 0 %}
-          <a href="https://foreverliving.looker.com/dashboards-next/6218?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+          <a href="https://foreverliving.looker.com/dashboards-next/6486?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
           {% else %}
           {{rendered_value}}
           {% endif %} ;;
@@ -233,7 +233,7 @@ view: vw_eagle_managers {
       sql: ${TABLE}."global total cc" ;;
       value_format:"#,##0.000"
       html: {% if value != 0 %}
-          <a href="https://foreverliving.looker.com/dashboards-next/6218?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+          <a href="https://foreverliving.looker.com/dashboards-next/6486?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
           {% else %}
           {{rendered_value}}
           {% endif %} ;;
@@ -245,7 +245,7 @@ view: vw_eagle_managers {
       sql: ${TABLE}."global new cc" ;;
       value_format:"#,##0.000"
       html: {% if value != 0 %}
-          <a href="https://foreverliving.looker.com/dashboards-next/6218?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+          <a href="https://foreverliving.looker.com/dashboards-next/6486?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
           {% else %}
           {{rendered_value}}
           {% endif %} ;;
@@ -296,7 +296,7 @@ view: vw_eagle_managers {
       sql: ${TABLE}."em lines" ;;
       html:
       {% if value != 0 %}
-        <a href="https://foreverliving.looker.com/dashboards-next/6224?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+        <a href="https://foreverliving.looker.com/dashboards-next/6488?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
       {% else %}
         {{rendered_value}}
       {% endif %} ;;
@@ -308,7 +308,7 @@ view: vw_eagle_managers {
       sql: ${TABLE}."em count" ;;
       html:
           {% if value != 0 %}
-          <a href="https://foreverliving.looker.com/dashboards-next/6245?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+          <a href="https://foreverliving.looker.com/dashboards-next/6492?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
           {% else %}
           {{rendered_value}}
           {% endif %} ;;
@@ -322,7 +322,7 @@ view: vw_eagle_managers {
             end;;
       html:
           {% if value != 0 %}
-          <a href="https://foreverliving.looker.com/dashboards-next/6341?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}&Qualifying+Country={{qualifying_country._value}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+          <a href="https://foreverliving.looker.com/dashboards-next/6487?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}&Qualifying+Country={{qualifying_country._value}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
           {% else %}
           {{rendered_value}}
           {% endif %} ;;
@@ -333,7 +333,7 @@ view: vw_eagle_managers {
       label: "New Sup. Count"
       sql: ${TABLE}."new sup. count" ;;
       html:
-          <a href="https://foreverliving.looker.com/dashboards-next/6244?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a> ;;
+          <a href="https://foreverliving.looker.com/dashboards-next/6493?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_eagle_managers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a> ;;
     }
 
     dimension: is_emeligible {
@@ -423,9 +423,10 @@ view: vw_eagle_managers {
       }
 
       parameter: parameter_year {
-        type: string
-        allowed_value: { label: "May-2020 to April-2021" value:"Current Period" }
-        default_value: "Current Period"
+        type: number
+        allowed_value: { label: "May-2020 to April-2021" value:"2021" }
+        allowed_value: { label: "May-2021 to April-2022" value:"2022" }
+        default_value: "2022"
       }
 
       set: detail {

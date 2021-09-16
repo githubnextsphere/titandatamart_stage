@@ -33,16 +33,11 @@ view: chairmans_bonus {
         cbq.activeallmonths,
         cbq.f2dearner,
         cbq.waivers
-      from prod2aggregation.fact_cbqualification cbq
-      inner join prod2.dim_member mem
+      from stage_tbeaggregation.fact_cbqualification cbq
+      inner join stage_tbe.dim_member mem
         on mem.distributorid = cbq.distributorid
-      WHERE
-      case when {% parameter parameter_year  %} = 'Current Year'
-          then  cbq.period =  EXTRACT(YEAR FROM CURRENT_DATE)
-            when {% parameter parameter_year  %} = 'Last Year'
-          then  cbq.period =  EXTRACT(YEAR FROM CURRENT_DATE) -1
-        end
-       ;;
+      WHERE cbq.period = {% parameter parameter_year  %}
+      ;;
   }
 
   measure: count {
@@ -52,10 +47,11 @@ view: chairmans_bonus {
 
   parameter: parameter_year {
     label: "Period"
-    type: string
-    allowed_value: { value: "Current Year" label:"Current Year"}
-    allowed_value: { value: "Last Year" label:"Last Year" }
-    default_value: "Current Year"
+    type: number
+    allowed_value: { value: "2022" }
+    allowed_value: { value: "2021"  }
+    allowed_value: { value: "2020"  }
+    default_value: "2022"
   }
 
   filter: fbofilter {
@@ -221,7 +217,7 @@ view: chairmans_bonus {
     sql: ${TABLE}.open_group_cc ;;
     value_format: "#,##0.000"
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6304?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -233,7 +229,7 @@ view: chairmans_bonus {
     sql: ${TABLE}.open_group_cc_global ;;
     value_format: "#,##0.000"
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6304?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -245,7 +241,7 @@ view: chairmans_bonus {
     sql: ${TABLE}.new_cc_global_capped ;;
     value_format: "#,##0.000"
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6304?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -257,7 +253,7 @@ view: chairmans_bonus {
     sql: ${TABLE}.new_cc_qc ;;
     value_format: "#,##0.000"
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6304?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -269,7 +265,7 @@ view: chairmans_bonus {
     sql: ${TABLE}.new_cc_oqc ;;
     value_format: "#,##0.000"
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6304?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -285,7 +281,7 @@ view: chairmans_bonus {
     label: "600CC Mgr Lines"
     sql: ${TABLE}."600cc_mgr_lines" ;;
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6325?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6489?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -302,7 +298,7 @@ view: chairmans_bonus {
     sql: ${TABLE}.cb_mgr_lines ;;
     label: "CB Mgr lines"
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6303?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -313,7 +309,7 @@ view: chairmans_bonus {
     label: "CB Mgr Count"
     sql: ${TABLE}.cb_mgr_count ;;
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6321?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6490?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;

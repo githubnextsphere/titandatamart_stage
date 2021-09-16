@@ -9,29 +9,14 @@ view: vw_cb_600cc_manager_lines {
       fcc.generation as "Generation",
       fcc."period",
       fc.totalcc_qc
-      from prod2aggregation.fact_cb600cclines fcc
-      Join prod2.dim_member dm on dm.distributorid =fcc.frontlineid
-      Join prod2.dim_member cb  on cb.distributorid =fcc."600cc_id"
-      and
-        case  when {% parameter parameter_year  %} = 'Current Year'
-                then  fcc.period =  EXTRACT(YEAR FROM CURRENT_DATE)
-              when {% parameter parameter_year  %} = 'Last Year'
-                then  fcc.period =  EXTRACT(YEAR FROM CURRENT_DATE) -1
-        end
-      JOIN prod2aggregation.fact_cbqualification fc on fc.distributorid =fcc."600cc_id"
-      and
-        case  when {% parameter parameter_year  %} = 'Current Year'
-                then  fc.period =  EXTRACT(YEAR FROM CURRENT_DATE)
-              when {% parameter parameter_year  %} = 'Last Year'
-                then  fc.period =  EXTRACT(YEAR FROM CURRENT_DATE) -1
-        end
+      from stage_tbeaggregation.fact_cb600cclines fcc
+      Join stage_tbe.dim_member dm on dm.distributorid =fcc.frontlineid
+      Join stage_tbe.dim_member cb  on cb.distributorid =fcc."600cc_id"
+      and  fcc.period =  {% parameter parameter_year  %}
+      JOIN stage_tbeaggregation.fact_cbqualification fc on fc.distributorid =fcc."600cc_id"
+      and fc.period =  {% parameter parameter_year  %}
       WHERE fcc.distributorid = Replace(Replace({{ fboid_param._parameter_value }},'-',''),' ','')
-      and
-        case  when {% parameter parameter_year  %} = 'Current Year'
-                then  fcc.period =  EXTRACT(YEAR FROM CURRENT_DATE)
-              when {% parameter parameter_year  %} = 'Last Year'
-                then  fcc.period =  EXTRACT(YEAR FROM CURRENT_DATE) -1
-        end
+      and fcc.period ={% parameter parameter_year  %}
  ;;
   }
 
@@ -41,10 +26,11 @@ view: vw_cb_600cc_manager_lines {
   }
   parameter: parameter_year {
     label: "Period"
-    type: string
-    allowed_value: { value: "Current Year" label:"Current Year"}
-    allowed_value: { value: "Last Year" label:"Last Year" }
-    default_value: "Current Year"
+    type: number
+    allowed_value: { value: "2020" }
+    allowed_value: { value: "2021" }
+    allowed_value: {value:"2022"}
+    default_value: "2022"
   }
 
   parameter: fboid_param {

@@ -6,12 +6,8 @@ derived_table: {
         dm.currentmonthactive,
         EXTRACT(Month FROM dm.processingdate) as monthsort,
         EXTRACT(Year FROM dm.processingdate) as  yearsort,
-      case when {% parameter parameter_year  %} = 'Current Period'
-        then EXTRACT(YEAR FROM CURRENT_DATE)
-        when {% parameter parameter_year  %} = 'Last Period'
-        then EXTRACT(YEAR FROM CURRENT_DATE) -1
-        end AS yearfilter
-        from prod2.dim_monthlycc dm
+       {% parameter parameter_year  %}  AS yearfilter
+        from stage_tbe.dim_monthlycc dm
          where
       dm.distributorid = Replace(Replace({% parameter parameter_fboid %},'-',''),' ','')
       and dm.processingdate between concat(yearfilter-1,'-05-01') and concat
@@ -91,10 +87,11 @@ parameter: parameter_qualifyingcountry {
 }
 
 parameter: parameter_year {
-  type: string
+  type: number
   label: "Period"
-  allowed_value: { value: "Current Period" label:"May-2020 to April-2021"}
-  default_value: "Current Period"
+  allowed_value: { value: "2021" label:"May-2020 to April-2021"}
+  allowed_value: { value: "2022" label:"May-2021 to April-2022"}
+  default_value: "2022"
 }
 
 set: detail {
