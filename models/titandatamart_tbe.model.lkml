@@ -8,6 +8,12 @@ datagroup: titandatamart_tbe_default_datagroup {
   max_cache_age: "1 hour"
 }
 
+datagroup: datagroup_9pm_arizona {
+  sql_trigger: SELECT floor((extract(epoch from convert_timezone(
+    'UTC', 'US/Arizona', getDate())) - (21* 60*60)) / (60*60*24)) ;;
+  max_cache_age: "24 hours"
+}
+
 persist_with: titandatamart_tbe_default_datagroup
 
 explore: downlinememberdetails {}
@@ -63,6 +69,7 @@ explore: generationdetails_global {}
 explore: stage_factdownlinecount_roguedata {}
 
 explore: stage_memberstats_roguedata {}
+
 
 explore: eagle_managers {
   view_name: vw_eagle_managers

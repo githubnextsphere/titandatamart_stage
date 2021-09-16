@@ -1355,6 +1355,274 @@ view: dim_member {
       retail_name,
       retail_email,
       retail_fbo_id
+]
+}
+   dimension_group: downlinememberfirstjoindate {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
     ]
+    sql: ${TABLE}.downlinememberfirstjoindate ;;
   }
+
+  dimension: emailaddress {
+    type: string
+    sql: ${TABLE}.emailaddress ;;
+  }
+
+
+  dimension_group: enrolmentdate {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.enrolmentdate ;;
+  }
+
+  dimension: enrolmentyear {
+    type: number
+    sql: ${TABLE}.enrolmentyear ;;
+  }
+
+
+  dimension_group: firstorderdate {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.firstorderdate ;;
+  }
+
+  dimension: firstorderhomecompanycode {
+    type: string
+    sql: ${TABLE}.firstorderhomecompanycode ;;
+  }
+
+  dimension: firstordernumber {
+    type: string
+    sql: ${TABLE}.firstordernumber ;;
+  }
+
+  dimension: firstorderoperatingcompanycode {
+    type: string
+    sql: ${TABLE}.firstorderoperatingcompanycode ;;
+  }
+
+  dimension: firstorderprocessingmonth {
+    type: number
+    sql: ${TABLE}.firstorderprocessingmonth ;;
+  }
+
+  dimension: firstorderprocessingyear {
+    type: number
+    sql: ${TABLE}.firstorderprocessingyear ;;
+  }
+
+  dimension: firstordertdmorderid {
+    type: number
+    value_format_name: id
+    sql: ${TABLE}.firstordertdmorderid ;;
+  }
+
+  dimension: hasglobaldownline {
+    type: string
+    sql: ${TABLE}.hasglobaldownline ;;
+  }
+
+  dimension: homecompanycode {
+    type: string
+    sql: ${TABLE}.homecompanycode ;;
+  }
+
+
+  dimension: imagefilename {
+    type: string
+    sql: ${TABLE}.imagefilename ;;
+  }
+
+  dimension: imagestorageinfoid {
+    type: number
+    value_format_name: id
+    sql: ${TABLE}.imagestorageinfoid ;;
+  }
+
+
+  dimension_group: lastmoveupdate {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.lastmoveupdate ;;
+  }
+
+  dimension: levelhistorycode {
+    type: string
+    sql: ${TABLE}.levelhistorycode ;;
+  }
+
+  dimension: levelprocessingmonth {
+    type: number
+    sql: ${TABLE}.levelprocessingmonth ;;
+  }
+
+  dimension: levelprocessingyear {
+    type: number
+    sql: ${TABLE}.levelprocessingyear ;;
+  }
+
+  dimension_group: membercreateddate {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.membercreateddate ;;
+  }
+
+  dimension: memberfirstname {
+    type: string
+    sql: ${TABLE}.memberfirstname ;;
+  }
+
+
+  dimension: memberlastname {
+    type: string
+    sql: ${TABLE}.memberlastname ;;
+  }
+
+  dimension: memberlevel {
+    type: string
+    sql: ${TABLE}.memberlevel ;;
+  }
+
+  dimension: membermiddlename {
+    type: string
+    sql: ${TABLE}.membermiddlename ;;
+  }
+
+
+  dimension: memberstatus {
+    type: string
+    sql: ${TABLE}.memberstatus ;;
+  }
+
+
+  dimension: membertype {
+    type: string
+    sql: ${TABLE}.membertype ;;
+  }
+
+
+  dimension: postalcode {
+    type: string
+    sql: ${TABLE}.postalcode ;;
+  }
+
+  dimension: previouslevel {
+    type: string
+    sql: ${TABLE}.previouslevel ;;
+  }
+
+
+  dimension: regionname {
+    type: string
+    sql: ${TABLE}.regionname ;;
+  }
+
+
+  dimension_group: sourcedatachangecapturedatetime {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.sourcedatachangecapturedatetime ;;
+  }
+
+  dimension: spousefirstname {
+    type: string
+    sql: ${TABLE}.spousefirstname ;;
+  }
+
+  dimension: spouselastname {
+    type: string
+    sql: ${TABLE}.spouselastname ;;
+  }
+
+
+  dimension: statecode {
+    type: string
+    sql: ${TABLE}.statecode ;;
+  }
+
+
+  dimension_group: terminationdate {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.terminationdate ;;
+  }
+
+  dimension: unmodified_memberfirstname {
+    type: string
+    sql: ${TABLE}.unmodified_memberfirstname ;;
+  }
+
+  dimension: unmodified_memberlastname {
+    type: string
+    sql: ${TABLE}.unmodified_memberlastname ;;
+  }
+
+  dimension: unmodified_membermiddlename {
+    type: string
+    sql: ${TABLE}.unmodified_membermiddlename ;;
+  }
+
+
+  dimension: vatregistered {
+    type: string
+    sql: ${TABLE}.vatregistered ;;
+  }
+
 }

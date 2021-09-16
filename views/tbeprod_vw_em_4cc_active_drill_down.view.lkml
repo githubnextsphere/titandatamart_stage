@@ -1,4 +1,5 @@
-view:tbeprod_vw_em_4cc_active_drill_down {
+view: tbeprod_vw_em_4cc_active_drill_down {
+
 derived_table: {
   sql: with cc_by_month as(
       select
