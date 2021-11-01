@@ -14,15 +14,15 @@ view: vw_new_supervisor {
         fem.mgrfirstmonth,
         {% parameter parameter_year  %} as yearfilter
       from
-        uat_tbeaggregation.fact_emqualification fem
-        inner join uat_tbe.dim_member mem1 on
+        prod2aggregation_tbe.fact_emqualification fem
+        inner join prod2.dim_member mem1 on
         fem.distributorid = mem1.distributorid
         and fem.distributorid = replace(replace({{fboid_param._parameter_value}},'-',''),' ','')
         and mem1.isdelete <>'D'
-        left join uat_tbeaggregation.fact_emnewsupervisors supervisor
+        left join prod2aggregation_tbe.fact_emnewsupervisors supervisor
         on fem.distributorid = supervisor.distributorid
         and fem.period = supervisor.period
-        left join uat_tbe.dim_member mem2 on
+        left join prod2.dim_member mem2 on
         mem2.distributorid = supervisor.supervisorid
         and mem2.isdelete <>'D'
       where fem.period = {% parameter parameter_year  %}
@@ -43,10 +43,10 @@ view: vw_new_supervisor {
         supd.mgrfirstmonth,
         supd.yearfilter
       from
-        uat_tbe.dim_sponsor spons
+        prod2.dim_sponsor spons
       left join superviordetails supd on
         spons.sponsordistributorid = supd."FBO ID"
-      join uat_tbe.dim_member dm on
+      join prod2.dim_member dm on
         dm.distributorid = spons.distributorid
         and dm.isdelete <>'D'
         where  supd."period" <= 2021
@@ -73,10 +73,10 @@ view: vw_new_supervisor {
         sd.mgrfirstmonth,
         sd.yearfilter
       from
-        uat_tbe.dim_sponsor spon
+        prod2.dim_sponsor spon
       left join superviordetails sd on
         spon.sponsordistributorid = sd."FBO ID"
-      join uat_tbe.dim_member m on
+      join prod2.dim_member m on
         m.distributorid = spon.distributorid
         and m.enrolmentdate between concat(yearfilter-1, '-05-01') and concat(yearfilter, '-04-30')
         and m.isdelete <>'D'

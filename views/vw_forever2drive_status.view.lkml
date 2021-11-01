@@ -6,7 +6,7 @@ view: vw_forever2drive_status {
             mon.processingdate as processingdate,
             mon.numberofdownlinegem1stgenarm as "1stgenactivemgrs",
             mon.totalccmtd as totalcc
-            from uat_tbe.dim_monthlycc mon
+            from prod2.dim_monthlycc mon
           ),
         forever2drive as (
           select
@@ -25,8 +25,8 @@ view: vw_forever2drive_status {
             datefilter as currentperiod,
             trunc(dateadd(month,-1,datefilter)) as previousperiod,
             trunc(dateadd(month,-2,datefilter)) as priortopreviousperiod
-            from uat_tbe.dim_member mem
-            join uat_tbe.dim_monthlycc mon
+            from prod2.dim_member mem
+            join prod2.dim_monthlycc mon
             on mem.distributorid = mon.distributorid
             and mon.isdelete != 'D' and mem.isdelete != 'D'
             where

@@ -7,7 +7,7 @@ derived_table: {
         EXTRACT(Month FROM dm.processingdate) as monthsort,
         EXTRACT(Year FROM dm.processingdate) as  yearsort,
        {% parameter parameter_year  %}  AS yearfilter
-        from uat_tbe.dim_monthlycc dm
+        from prod2.dim_monthlycc dm
          where
       dm.distributorid = Replace(Replace({% parameter parameter_fboid %},'-',''),' ','')
       and dm.processingdate between concat(yearfilter-1,'-05-01') and concat

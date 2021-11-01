@@ -29,8 +29,8 @@ view: vw_em_status_by_lines {
           e.MgrFirstMonth as "MGR 1st Mo",
           e.MgrFirstMonthTotalCC as "MGR 1st Mo Total CC",
           m3.operatingcompanycode as "Upline FBO OpCO"
-      FROM uat_tbeaggregation.fact_emmgrsindownline d
-      inner join uat_tbeaggregation.fact_emqualification e
+      FROM prod2aggregation_tbe.fact_emmgrsindownline d
+      inner join prod2aggregation_tbe.fact_emqualification e
       on LPAD(d.Mgr_Id,12,0) = e.DistributorId
       and
       case when {% parameter parameter_year  %} = 'Current Period'
@@ -38,13 +38,13 @@ view: vw_em_status_by_lines {
             when {% parameter parameter_year  %} = 'Last Period'
                 then  e.Period = EXTRACT(YEAR FROM CURRENT_DATE) -1
       end
-      inner join uat_tbe.dim_member m
+      inner join prod2.dim_member m
       on m.DistributorId = e.DistributorId
-      inner join uat_tbe.dim_member m2
+      inner join prod2.dim_member m2
       on LPAD(d.FrontLineID,12,0) = m2.DistributorId
-      inner join uat_tbe.dim_member m3
+      inner join prod2.dim_member m3
       on LPAD(d.DistributorId,12,0) = m3.DistributorId
-      left join uat_tbeaggregation.fact_emlines e2
+      left join prod2aggregation_tbe.fact_emlines e2
       on e2.FrontLineID = LPAD(d.FrontLineID,12,0)
       and e2.Country = e.QualifyingCountry
       and case when {% parameter parameter_year  %} = 'Current Period'

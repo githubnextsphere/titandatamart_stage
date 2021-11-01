@@ -33,10 +33,10 @@ view: vw_chairmanbonus_cc_summary_by_country {
                    as "open_group_cc",
               cbqualification.qualifyingcountry as "qualifying_country",
               {% parameter parameter_year  %}  AS yearfilter
-              from uat_tbe.dim_monthlycc monthlycc
-              join uat_tbeaggregation.fact_cbqualification cbqualification
+              from prod2.dim_monthlycc monthlycc
+              join prod2aggregation_tbe.fact_cbqualification cbqualification
               on monthlycc.distributorid=cbqualification.distributorid
-              join uat_tbe.dim_country country
+              join prod2.dim_country country
               on monthlycc.operatingcompanycode=country.isocodethree
               where
               monthlycc.distributorid = Replace(Replace({{fboid_param._parameter_value}},'-',''),' ','')

@@ -10,7 +10,7 @@ view: vw_global_rally_status_report {
         rewards.lodging as lodging,
         rewards.spendingcash  as allowance,
         rewards.cashbonus  as grbonus
-        from uat_tbeaggregation.fact_globalrallyrewards rewards
+        from prod2aggregation_tbe.fact_globalrallyrewards rewards
       ),
       details as (
       select
@@ -25,8 +25,8 @@ view: vw_global_rally_status_report {
         fgr.waivers as waivers,
         fgr."level" as achievedlevel,
         case when fgr."level"=0 then fgr."level"+2 else fgr."level"+1 end as nextlevel
-        from uat_tbeaggregation.fact_grqualification fgr
-        join uat_tbe.dim_member mem
+        from prod2aggregation_tbe.fact_grqualification fgr
+        join prod2.dim_member mem
         on mem.distributorid = fgr.distributorid
         and mem.isdelete <> 'D'
       )

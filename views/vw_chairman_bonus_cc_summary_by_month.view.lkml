@@ -19,8 +19,8 @@ view: vw_chairman_bonus_cc_summary_by_month {
                     else 0
                 end as "totalcc",
                 when {% parameter parameter_year  %}  AS yearfilter
-                from uat_tbe.dim_monthlycc mon
-                join uat_tbeaggregation.fact_cbqualification cb
+                from prod2.dim_monthlycc mon
+                join prod2aggregation_tbe.fact_cbqualification cb
                 on mon.distributorid = cb.distributorid
                 where
                 cb.distributorid = Replace(Replace({{parameter_fboid._parameter_value}},'-',''),' ','')

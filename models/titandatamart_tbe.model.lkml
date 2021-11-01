@@ -1,4 +1,4 @@
-connection: "titanbonusenginestage"
+connection: "titandatamartprod2"
 
 # include all the views
 include: "/views/**/*.view"
