@@ -32,7 +32,7 @@ view: vw_em_cc_summary_by_country {
                where
                monthlycc.distributorid = Replace(Replace({{fboid_param._parameter_value}},'-',''),' ','')
               and processingdate between concat(yearfilter-1,'-05-01') and concat(yearfilter,'-04-30')
-              and isdelete!='D'
+              and monthlycc.isdelete!='D'
               and emqualification.period = yearfilter
               group by
               monthlycc.distributorid,
