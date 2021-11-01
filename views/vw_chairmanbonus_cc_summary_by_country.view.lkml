@@ -41,7 +41,7 @@ view: vw_chairmanbonus_cc_summary_by_country {
               where
               monthlycc.distributorid = Replace(Replace({{fboid_param._parameter_value}},'-',''),' ','')
               and processingdate between concat(yearfilter,'-01-01') and concat(yearfilter,'-12-31')
-              and isdelete!='D'
+              and monthlycc.isdelete!='D'
               and cbqualification.period = yearfilter
               group by
               monthlycc.distributorid,
