@@ -21,7 +21,7 @@ view: vw_eagle_managers {
       fe.MgrFirstMonth as "Mgr 1st Mo",
       fe.MgrFirstMonthTotalCC as "Mgr 1st Mo Total CC",
       dm.homecompanycode
-      FROM   prod2aggregation_tbe.fact_emqualification fe
+      FROM   prod2aggregation.fact_emqualification fe
       inner join prod2.dim_member dm
       on dm.DistributorId = fe.DistributorId
       and dm.isdelete <> 'D'
@@ -48,7 +48,7 @@ view: vw_eagle_managers {
       fe.MgrFirstMonth as "Mgr 1st Mo",
       fe.MgrFirstMonthTotalCC as "Mgr 1st Mo Total CC",
       dm.homecompanycode
-      FROM   prod2aggregation_tbe.fact_emqualification fe
+      FROM   prod2aggregation.fact_emqualification fe
       inner join prod2.dim_sponsor ds
       on ds.distributorid = fe.DistributorId
       inner join prod2.dim_member dm
