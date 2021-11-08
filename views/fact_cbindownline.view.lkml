@@ -1,5 +1,5 @@
 view: fact_cbindownline {
-  sql_table_name: prod2aggregation.fact_cbindownline ;;
+  sql_table_name: prod2aggregation_tbe.fact_cbindownline ;;
 
   dimension: cb_id {
     type: string
@@ -33,6 +33,11 @@ view: fact_cbindownline {
   dimension: frontlineid {
     type: string
     sql: ${TABLE}.frontlineid ;;
+  }
+
+  dimension: isdelete {
+    type: string
+    sql: ${TABLE}.isdelete ;;
   }
 
   dimension: generation {

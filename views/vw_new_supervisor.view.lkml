@@ -18,10 +18,10 @@ view: vw_new_supervisor {
         inner join prod2.dim_member mem1 on
         fem.distributorid = mem1.distributorid
         and fem.distributorid = replace(replace({{fboid_param._parameter_value}},'-',''),' ','')
-        and mem1.isdelete <>'D'
-        left join prod2aggregation_tbe.fact_emnewsupervisors supervisor
+        and mem1.isdelete <>'D' and isnull(fem.isdelete != 'D')
+        left join prod2aggregation_tbe.fact_emnewsupervisors_new supervisor
         on fem.distributorid = supervisor.distributorid
-        and fem.period = supervisor.period
+        and fem.period = supervisor.period and isnull(supervisor.isdelete != 'D')
         left join prod2.dim_member mem2 on
         mem2.distributorid = supervisor.supervisorid
         and mem2.isdelete <>'D'

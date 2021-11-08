@@ -1,5 +1,5 @@
 view: fact_emindownline {
-  sql_table_name: prod2aggregation.fact_emindownline ;;
+  sql_table_name: prod2aggregation_tbe.fact_emindownline ;;
 
   dimension: distributorid {
     type: string
@@ -9,6 +9,11 @@ view: fact_emindownline {
   dimension: em_id {
     type: string
     sql: ${TABLE}.em_id ;;
+  }
+
+  dimension: isdelete {
+    type: string
+    sql: ${TABLE}.isdelete ;;
   }
 
   dimension: emindownlinekey {

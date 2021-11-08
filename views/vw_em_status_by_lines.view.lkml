@@ -32,7 +32,7 @@ view: vw_em_status_by_lines {
       FROM prod2aggregation_tbe.fact_emmgrsindownline d
       inner join prod2aggregation_tbe.fact_emqualification e
       on LPAD(d.Mgr_Id,12,0) = e.DistributorId
-      and
+      and ISNULL(d.isdelete,'') != 'D' and ISNULL(e.isdelete,'') != 'D'
       case when {% parameter parameter_year  %} = 'Current Period'
                 then  e.Period = EXTRACT(YEAR FROM CURRENT_DATE)
             when {% parameter parameter_year  %} = 'Last Period'
@@ -40,13 +40,17 @@ view: vw_em_status_by_lines {
       end
       inner join prod2.dim_member m
       on m.DistributorId = e.DistributorId
+      and ISNULL(m.isdelete,'') != 'D'
       inner join prod2.dim_member m2
       on LPAD(d.FrontLineID,12,0) = m2.DistributorId
+      and ISNULL(m2.isdelete,'') != 'D'
       inner join prod2.dim_member m3
       on LPAD(d.DistributorId,12,0) = m3.DistributorId
+      and ISNULL(m3.isdelete,'') != 'D'
       left join prod2aggregation_tbe.fact_emlines e2
       on e2.FrontLineID = LPAD(d.FrontLineID,12,0)
       and e2.Country = e.QualifyingCountry
+      and ISNULL(e2.isdelete,'') != 'D'
       and case when {% parameter parameter_year  %} = 'Current Period'
                 then  e2.Period = EXTRACT(YEAR FROM CURRENT_DATE)
               when {% parameter parameter_year  %} = 'Last Period'

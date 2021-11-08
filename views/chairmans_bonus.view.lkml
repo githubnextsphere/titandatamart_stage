@@ -36,6 +36,7 @@ view: chairmans_bonus {
       from prod2aggregation_tbe.fact_cbqualification cbq
       inner join prod2.dim_member mem
         on mem.distributorid = cbq.distributorid
+      and ISNULL(cbq.isdelete,'') != 'D' and ISNULL(mem.isdelete,'') != 'D'
       WHERE cbq.period = {% parameter parameter_year  %}
       ;;
   }

@@ -1,5 +1,5 @@
 view: fact_cbqualification {
-  sql_table_name: prod2aggregation.fact_cbqualification ;;
+  sql_table_name: prod2aggregation_tbe.fact_cbqualification ;;
 
   dimension: 600ccmgrlines {
     type: number
@@ -9,6 +9,11 @@ view: fact_cbqualification {
   dimension: cblines {
     type: number
     sql: ${TABLE}.cblines ;;
+  }
+
+  dimension: isdelete {
+    type: string
+    sql: ${TABLE}.isdelete ;;
   }
 
   dimension: cbqualificationkey {

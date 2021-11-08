@@ -36,12 +36,13 @@ view: vw_chairmanbonus_cc_summary_by_country {
               from prod2.dim_monthlycc monthlycc
               join prod2aggregation_tbe.fact_cbqualification cbqualification
               on monthlycc.distributorid=cbqualification.distributorid
+              and isnull(cbqualification.isdelete,'') != 'D'
+              and isnull(monthlycc.isdelete,'') != 'D'
               join prod2.dim_country country
               on monthlycc.operatingcompanycode=country.isocodethree
               where
               monthlycc.distributorid = Replace(Replace({{fboid_param._parameter_value}},'-',''),' ','')
               and processingdate between concat(yearfilter,'-01-01') and concat(yearfilter,'-12-31')
-              and monthlycc.isdelete!='D'
               and cbqualification.period = yearfilter
               group by
               monthlycc.distributorid,

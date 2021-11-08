@@ -14,14 +14,16 @@ view: vw_eagle_manager_lines {
         prod2aggregation_tbe.fact_emlines fe
       JOIN prod2.dim_member mem on
         mem.distributorid = fe.frontlineid
+        and ISNULL(mem.isdelete,'') != 'D' and ISNULL(fe.isdelete,'') != 'D'
       JOIN prod2.dim_country dc on
         fe.country = dc.isocodethree
       JOIN prod2.dim_member m on
         m.distributorid = fe.em_id
+        and ISNULL(m.isdelete,'') != 'D'
       JOIN prod2aggregation_tbe.fact_emqualification feq on
         feq.distributorid = fe.em_id
-        and
-        feq.period =  {% parameter parameter_year  %}
+        and ISNULL(feq.isdelete,'') != 'D'
+        and feq.period =  {% parameter parameter_year  %}
       WHERE
         fe.distributorid = Replace(Replace({{ fboid_param._parameter_value }},'-',''),' ','')
         and  fe.period =  {% parameter parameter_year  %}

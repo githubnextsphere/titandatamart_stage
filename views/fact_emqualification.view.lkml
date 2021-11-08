@@ -1,5 +1,5 @@
 view: fact_emqualification {
-  sql_table_name: prod2aggregation.fact_emqualification ;;
+  sql_table_name: prod2aggregation_tbe.fact_emqualification ;;
 
   dimension: distributorid {
     type: string
@@ -43,6 +43,11 @@ view: fact_emqualification {
       year
     ]
     sql: ${TABLE}.entered ;;
+  }
+
+  dimension: isdelete {
+    type: string
+    sql: ${TABLE}.isdelete ;;
   }
 
   dimension: homecountry {

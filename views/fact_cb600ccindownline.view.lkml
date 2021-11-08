@@ -1,5 +1,5 @@
 view: fact_cb600ccindownline {
-  sql_table_name: prod2aggregation.fact_cb600ccindownline ;;
+  sql_table_name: prod2aggregation_tbe.fact_cb600ccindownline ;;
 
   dimension: 600cc_id {
     type: string
@@ -38,6 +38,11 @@ view: fact_cb600ccindownline {
   dimension: generation {
     type: number
     sql: ${TABLE}.generation ;;
+  }
+
+  dimension: isdelete {
+    type: string
+    sql: ${TABLE}.isdelete ;;
   }
 
   dimension: period {

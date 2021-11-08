@@ -18,17 +18,32 @@ persist_with: titandatamart_tbe_default_datagroup
 
 explore: downlinememberdetails {}
 
-explore: fact_cb600ccindownline {}
+explore: fact_cb600ccindownline {
+  view_name: fact_cb600ccindownline
+  sql_always_where: ISNULL(${isdelete},'') != 'D' ;;
+}
 
-explore: fact_cb600cclines {}
+explore: fact_cb600cclines {
+  view_name: fact_cb600cclines
+  sql_always_where: ISNULL(${isdelete},'') != 'D' ;;
+}
 
 explore: fact_cbindownline {}
 
-explore: fact_cblines {}
+explore: fact_cblines {
+  view_name: fact_cblines
+  sql_always_where: ISNULL(${isdelete},'') != 'D' ;;
+}
 
-explore: fact_cbmgrsindownline {}
+explore: fact_cbmgrsindownline {
+  view_name: fact_cbmgrsindownline
+  sql_always_where: ISNULL(${isdelete},'') != 'D' ;;
+}
 
-explore: fact_cbqualification {}
+explore: fact_cbqualification {
+  view_name: fact_cbqualification
+  sql_always_where: ISNULL(${isdelete},'') != 'D' ;;
+}
 
 explore: fact_distributordownlinecount_aggregation {}
 
@@ -36,15 +51,30 @@ explore: fact_distributordownlinecount_aggregation_global {}
 
 explore: fact_downlinetreebydistributors {}
 
-explore: fact_emindownline {}
+explore: fact_emindownline {
+  view_name: fact_emindownline
+  sql_always_where: ISNULL(${isdelete},'') != 'D' ;;
+}
 
-explore: fact_emlines {}
+explore: fact_emlines {
+  view_name: fact_emlines
+  sql_always_where: ISNULL(${isdelete},'') != 'D' ;;
+}
 
-explore: fact_emmgrsindownline {}
+explore: fact_emmgrsindownline {
+  view_name: fact_emmgrsindownline
+  sql_always_where: ISNULL(${isdelete},'') != 'D' ;;
+}
 
-explore: fact_emnewsupervisors {}
+explore: fact_emnewsupervisors {
+  view_name: fact_emnewsupervisors
+  sql_always_where: ISNULL(${isdelete},'') != 'D' ;;
+}
 
-explore: fact_emqualification {}
+explore: fact_emqualification {
+  view_name: fact_emqualification
+  sql_always_where: ISNULL(${isdelete},'') != 'D' ;;
+}
 
 explore: fact_emyearlycc {}
 
@@ -77,7 +107,8 @@ explore: eagle_managers {
   join: fact_emmgrsindownline {
     type: inner
     relationship: one_to_one
-    sql_on: ${vw_eagle_managers.fbo_id_format1} = ${fact_emmgrsindownline.mgr_id}  ;;
+    sql_on: ${vw_eagle_managers.fbo_id_format1} = ${fact_emmgrsindownline.mgr_id}
+    and ${fact_emmgrsindownline.isdelete} != 'D';;
   }
   fields: [vw_eagle_managers.detail*,fact_emmgrsindownline.detail*,vw_eagle_managers.min_required_em_lines_to_qualify,
     vw_eagle_managers.required_em_lines_to_match_sales_level,vw_eagle_managers.parameter_year]
@@ -103,34 +134,6 @@ explore: global_rally_status_report {
   view_name: vw_global_rally_status_report
   access_filter: {
     field: vw_global_rally_status_report.homecountry
-    user_attribute: operatingcountry
-  }
-}
-
-explore: tbeprod_new_chairmans_bonus {
-  view_name: tbeprod_chairmans_bonus
-  label: "New Chairman's Bonus TBE Prod"
-  access_filter: {
-    field: tbeprod_chairmans_bonus.operating_company
-    user_attribute: operatingcountry
-  }
-}
-
-explore: tbeprod_vw_eagle_managers {
-  view_name: tbeprod_vw_eagle_managers
-  label: "Eagle Manager's TBE Prod"
-  join: tbeprod_fact_emmgrsindownline {
-    type: inner
-    relationship: one_to_one
-    sql_on: ${tbeprod_vw_eagle_managers.fbo_id_format1} = ${tbeprod_fact_emmgrsindownline.mgr_id}  ;;
-  }
-  fields: [tbeprod_vw_eagle_managers.detail*,tbeprod_fact_emmgrsindownline.detail*,tbeprod_vw_eagle_managers.min_required_em_lines_to_qualify,
-    tbeprod_vw_eagle_managers.required_em_lines_to_match_sales_level,tbeprod_vw_eagle_managers.parameter_year]
-
-  sql_always_where: ${tbeprod_vw_eagle_managers.period}=  {{ tbeprod_vw_eagle_managers.parameter_year._parameter_value }};;
-
-  access_filter: {
-    field: tbeprod_vw_eagle_managers.opcofilter
     user_attribute: operatingcountry
   }
 }

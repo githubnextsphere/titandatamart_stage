@@ -11,10 +11,13 @@ view: vw_cb_600cc_manager_lines {
       fc.totalcc_qc
       from prod2aggregation_tbe.fact_cb600cclines fcc
       Join prod2.dim_member dm on dm.distributorid =fcc.frontlineid
+      on isnull(fcc.isdelete,'') != 'D'
       Join prod2.dim_member cb  on cb.distributorid =fcc."600cc_id"
       and  fcc.period =  {% parameter parameter_year  %}
+      on isnull(cb.isdelete,'') != 'D'
       JOIN prod2aggregation_tbe.fact_cbqualification fc on fc.distributorid =fcc."600cc_id"
       and fc.period =  {% parameter parameter_year  %}
+      and isnull(fc.isdelete,'') != 'D'
       WHERE fcc.distributorid = Replace(Replace({{ fboid_param._parameter_value }},'-',''),' ','')
       and fcc.period ={% parameter parameter_year  %}
  ;;

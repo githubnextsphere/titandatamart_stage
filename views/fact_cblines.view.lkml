@@ -1,9 +1,14 @@
 view: fact_cblines {
-  sql_table_name: prod2aggregation.fact_cblines ;;
+  sql_table_name: prod2aggregation_tbe.fact_cblines ;;
 
   dimension: cb_id {
     type: string
     sql: ${TABLE}.cb_id ;;
+  }
+
+  dimension: isdelete {
+    type: string
+    sql: ${TABLE}.isdelete ;;
   }
 
   dimension: cblevel {

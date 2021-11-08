@@ -22,6 +22,8 @@ view: vw_chairman_bonus_cc_summary_by_month {
                 from prod2.dim_monthlycc mon
                 join prod2aggregation_tbe.fact_cbqualification cb
                 on mon.distributorid = cb.distributorid
+                and  isnull(cb.isdelete,'') != 'D'
+                and isnull(mon.isdelete,'') != 'D'
                 where
                 cb.distributorid = Replace(Replace({{parameter_fboid._parameter_value}},'-',''),' ','')
                 and processingdate between concat(yearfilter,'-01-01') and concat(yearfilter,'-12-31')

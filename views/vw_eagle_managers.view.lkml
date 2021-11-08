@@ -24,7 +24,7 @@ view: vw_eagle_managers {
       FROM   prod2aggregation_tbe.fact_emqualification fe
       inner join prod2.dim_member dm
       on dm.DistributorId = fe.DistributorId
-      and dm.isdelete <> 'D'
+      and dm.isdelete <> 'D' and fe.isdelete <> 'D'
       and ({% condition  opcofilter %} dm.operatingcompanycode {% endcondition %})
       union
       SELECT   fe.DistributorId as "FBO ID",
@@ -53,7 +53,7 @@ view: vw_eagle_managers {
       on ds.distributorid = fe.DistributorId
       inner join prod2.dim_member dm
       on dm.DistributorId = fe.DistributorId
-      and dm.isdelete <> 'D'
+      and dm.isdelete <> 'D' and fe.isdelete <> 'D'
       and ({% condition  opcofilter %} fe.qualifyingcountry {% endcondition %})
       Order by "EM Level" desc, "Global Total CC" desc
        ;;

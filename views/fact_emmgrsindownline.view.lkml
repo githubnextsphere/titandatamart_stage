@@ -1,5 +1,5 @@
 view: fact_emmgrsindownline {
-  sql_table_name: stage_tbeaggregation.fact_emmgrsindownline ;;
+  sql_table_name: prod2aggregation_tbe.fact_emmgrsindownline ;;
 
   dimension: distributorid {
     type: string
@@ -132,6 +132,11 @@ view: fact_emmgrsindownline {
     sql: ${TABLE}.period ;;
   }
 
+  dimension: isdelete {
+    type: number
+    sql: ${TABLE}.isdelete ;;
+  }
+
   dimension_group: validfrom {
     type: time
     timeframes: [
@@ -162,7 +167,8 @@ view: fact_emmgrsindownline {
       fbo_id_f7,
       fbo_id_f8,
       fbo_id_f9,
-      mgr_id
+      mgr_id,
+      isdelete
     ]
   }
 

@@ -1,5 +1,5 @@
 view: fact_emlines {
-  sql_table_name: prod2aggregation.fact_emlines ;;
+  sql_table_name: prod2aggregation_tbe.fact_emlines ;;
 
   dimension: country {
     type: string
@@ -10,6 +10,11 @@ view: fact_emlines {
   dimension: distributorid {
     type: string
     sql: ${TABLE}.distributorid ;;
+  }
+
+  dimension: isdelete {
+    type: string
+    sql: ${TABLE}.isdelete ;;
   }
 
   dimension: downlineemcount {

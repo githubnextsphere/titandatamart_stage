@@ -33,8 +33,10 @@ view: vw_chairman_bonus_qualifiers {
       from prod2aggregation_tbe.fact_cbindownline fc
 join prod2.dim_member mem on
   mem.distributorid = fc.cb_id
+  and isnull(mem.isdelete,'')!='D' and isnull(fc.isdelete,'') != 'D'
 JOIN prod2aggregation_tbe.fact_cbqualification cbq on
   cbq.distributorid = fc.cb_id
+  and isnull(cbq.isdelete,'')!='D'
    and cbq.period = {% parameter parameter_year  %}
       WHERE
           fc.distributorid = Replace(Replace({{ fboid_param._parameter_value }},'-',''),' ','')

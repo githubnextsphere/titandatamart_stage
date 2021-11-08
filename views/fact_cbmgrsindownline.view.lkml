@@ -1,5 +1,5 @@
 view: fact_cbmgrsindownline {
-  sql_table_name: stage_tbeaggregation.fact_cbmgrsindownline ;;
+  sql_table_name: prod2aggregation_tbe.fact_cbmgrsindownline ;;
 
   dimension: cbmgrsindownlinekey {
     type: number
@@ -45,6 +45,10 @@ view: fact_cbmgrsindownline {
     sql: ${TABLE}.mgrfirstname ;;
   }
 
+  dimension: isdelete {
+    type: string
+    sql: ${TABLE}.isdelete ;;
+  }
   dimension: mgrlastname {
     type: string
     sql: ${TABLE}.mgrlastname ;;

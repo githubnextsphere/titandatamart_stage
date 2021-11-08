@@ -1,5 +1,5 @@
 view: fact_cb600cclines {
-  sql_table_name: prod2aggregation.fact_cb600cclines ;;
+  sql_table_name: prod2aggregation_tbe.fact_cb600cclines ;;
 
   dimension: 600cc_id {
     type: string
@@ -20,6 +20,11 @@ view: fact_cb600cclines {
   dimension: distributorid {
     type: string
     sql: ${TABLE}.distributorid ;;
+  }
+
+  dimension: isdelete {
+    type: string
+    sql: ${TABLE}.isdelete ;;
   }
 
   dimension: downline60cccount {

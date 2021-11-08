@@ -28,6 +28,7 @@ view: vw_cc_summary_by_month {
           from prod2.dim_monthlycc mon
           join prod2aggregation_tbe.fact_emqualification em
           on mon.distributorid = em.distributorid
+          and mon.isdelete!= 'D' and em.isdelete !='D'
           where
           em.distributorid = Replace(Replace({% parameter parameter_fboid %},'-',''),' ','')
           and processingdate between concat(yearfilter-1,'-05-01') and concat(yearfilter,'-04-30')

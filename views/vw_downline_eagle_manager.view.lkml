@@ -25,8 +25,9 @@ view: vw_downline_eagle_manager {
         prod2aggregation_tbe.fact_emindownline fe
       JOIN prod2.dim_member mem on
         mem.distributorid = fe.em_id
+        and isnull(mem.isdelete,'') != 'D' and isnull(fe.isdelete,'') != 'D'
       JOIN prod2aggregation_tbe.fact_emqualification feq on
-        feq.distributorid = fe.em_id
+        feq.distributorid = fe.em_id and isnull(feq.isdelete,'') != 'D'
          and feq.period = {% parameter parameter_year  %}
       WHERE
        fe.distributorid = Replace(Replace({{ fboid_param._parameter_value }},'-',''),' ','')

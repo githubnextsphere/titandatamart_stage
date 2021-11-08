@@ -12,7 +12,9 @@ view: vw_chairman_bonus_manager_lines {
       fc."period"
       from prod2aggregation_tbe.fact_cblines fc
       Join prod2.dim_member dm on dm.distributorid =fc.frontlineid
+      and ISNULL(fc.isdelete,'') != 'D' and ISNULL(dm.isdelete,'') != 'D'
       Join prod2.dim_member cb  on cb.distributorid =fc.cb_id
+      and ISNULL(cb.isdelete,'') != 'D'
       WHERE
         fc.distributorid = Replace(Replace({{ fboid_param._parameter_value }},'-',''),' ','')
         and fc.period = {% parameter parameter_year  %}

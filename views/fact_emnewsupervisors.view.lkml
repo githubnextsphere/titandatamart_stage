@@ -1,5 +1,5 @@
 view: fact_emnewsupervisors {
-  sql_table_name: prod2aggregation.fact_emnewsupervisors ;;
+  sql_table_name: prod2aggregation_tbe.fact_emnewsupervisors ;;
 
   dimension: country {
     type: string
@@ -39,6 +39,11 @@ view: fact_emnewsupervisors {
   dimension: supervisorid {
     type: string
     sql: ${TABLE}.supervisorid ;;
+  }
+
+  dimension: isdelete {
+    type: string
+    sql: ${TABLE}.isdelete ;;
   }
 
   dimension_group: validfrom {
