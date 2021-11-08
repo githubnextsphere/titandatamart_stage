@@ -1,6 +1,9 @@
 view: vw_forever2drive_status {
   derived_table: {
-    sql: with monthycc as (
+    sql:
+        {% assign arr_period = _filters['vw_forever2drive_status.parameter_period'] | sql_quote | split: ','  %}
+        {% assign size_period = arr_period | size %}
+        with monthycc as (
           select mon.distributorid,
             mon.operatingcompanycode as opco,
             mon.processingdate as processingdate,
@@ -19,23 +22,61 @@ view: vw_forever2drive_status {
             mon.earnedincentivequalificationdate as qualificationstartperiod,
             mon.earnedincentiveexpirationdate as qualificationendperiod,
             mon.currentmonthactive as "4ccactive",
-            case when {% parameter parameter_period %} = 'Current Period' then trunc(date_trunc('month',current_date))
-            else to_date('01-' || {% parameter parameter_period %}, 'DD-MM-YYYY')
-            end as datefilter,
+            mon.earnedincentiveamount as earnedamount,
+            mon.processingdate as datefilter,
             datefilter as currentperiod,
             trunc(dateadd(month,-1,datefilter)) as previousperiod,
             trunc(dateadd(month,-2,datefilter)) as priortopreviousperiod
             from prod2.dim_member mem
             join prod2.dim_monthlycc mon
             on mem.distributorid = mon.distributorid
-            and mon.isdelete != 'D' and mem.isdelete != 'D'
+            and isnull(mon.isdelete,'')<> 'D'
+            and isnull(mem.isdelete,'')<> 'D'
             where
-            mon.processingdate = ( case when {% parameter parameter_period %} = 'Current Period' then
-            trunc(date_trunc('month',current_date))
-            else to_date('01-' || {% parameter parameter_period %}, 'DD-MM-YYYY') end)
-          )
+              {% if size_period == 0 %}
+                1=1
+              {% elsif size_period == 1 %}
+                mon.processingdate =
+                    case when {{arr_period}} = 'Current Period' then trunc(date_trunc('month',current_date))
+                    else to_date('01-' || {{arr_period}}, 'DD-MM-YYYY') end
+              {% else %}
+                mon.processingdate IN
+                  {% for period in arr_period %}
+                    {% if forloop.first == true %}
+                    (
+                      case when {{period}}' = 'Current Period' then trunc(date_trunc('month',current_date))
+                      else to_date('01-' || {{period}}','DD-MM-YYYY') end,
+                    {% elsif forloop.last == true %}
+                       to_date('01-' || '{{period}},'DD-MM-YYYY'))
+                    {% else %}
+                        to_date('01-' || '{{period}}','DD-MM-YYYY'),
+                    {% endif %}
+                  {% endfor %}
+              {% endif %}
+          ),
+        final_cte as (
+          select
+            fboid,
+            fd.opco,
+            max(case when (qualificationlevel = 1 or qualificationlevel = 2 or qualificationlevel = 3)
+            then
+              case when ("4ccactive" = 'true' and mcc.totalcc >= 50 and qualificationendperiod >= current_date and currentperiod = fd.processingdate)
+              then ('Level ' + coalesce(qualificationlevel , '') + ' - Qualified' )
+              else ('Level ' + coalesce(qualificationlevel , '') + ' - Not Qualified' ) end
+            else 'Not Qualified' end) as "Status",
+            max(case when currentperiod = mcc.processingdate then "1stgenactivemgrs" end) as "1st Gen Active Mgrs",
+            max(case when currentperiod = mcc.processingdate then totalcc end) as "Total CC",
+            max(case when previousperiod =mcc.processingdate then "1stgenactivemgrs" end) as "(Period-1) 1st Gen Active Mgrs",
+            max(case when previousperiod =mcc.processingdate then totalcc end) as "(Period-1) Total CC",
+            max(case when priortopreviousperiod =mcc.processingdate then "1stgenactivemgrs" end) as "(Period-2) 1st Gen Active Mgrs",
+            max(case when priortopreviousperiod =mcc.processingdate then totalcc end) as "(Period-2) Total CC"
+            from forever2drive fd
+            join monthycc mcc on fd.fboid = mcc.distributorid
+            and fd.opco = mcc.opco
+            group by 1,2
+        )
         select
-          fboid as "FBO ID",
+          fd.fboid as "FBO ID",
           fboname as "FBO Name",
           homecountry as "Member Opco",
           fd.opco as "Qualifying Opco",
@@ -44,75 +85,77 @@ view: vw_forever2drive_status {
           qualificationstartperiod as "Qualification Start Period" ,
           qualificationendperiod as "Qualification End Period",
           "4ccactive" as "4CC Active",
-          Max(case when(qualificationlevel = 0) then
-              case when(("1stgenactivemgrs" >= 0 and "1stgenactivemgrs" < 5) or "1stgenactivemgrs" is null) then 150
-                  when("1stgenactivemgrs" >= 5 and "1stgenactivemgrs" < 10) then 110
-                  when("1stgenactivemgrs" >= 10 and "1stgenactivemgrs" < 15) then 70
-                  when("1stgenactivemgrs" >= 15 and "1stgenactivemgrs" < 20) then 30
-                  when("1stgenactivemgrs" >= 20) then 0
+          earnedamount as "Earned Amount",
+          case when(qualificationlevel = 1) then
+              case when(("1st Gen Active Mgrs" >= 0 and "1st Gen Active Mgrs" < 5) or "1st Gen Active Mgrs" is null) then 150
+                  when("1st Gen Active Mgrs" >= 5 and "1st Gen Active Mgrs" < 10) then 110
+                  when("1st Gen Active Mgrs" >= 10 and "1st Gen Active Mgrs" < 15) then 70
+                  when("1st Gen Active Mgrs" >= 15 and "1st Gen Active Mgrs" < 20) then 30
+                  when("1st Gen Active Mgrs" >= 20) then 0
               end
-              when(qualificationlevel = 1) then
-                case when(("1stgenactivemgrs" >= 0 and "1stgenactivemgrs" < 5) or "1stgenactivemgrs" is null) then 225
-                  when("1stgenactivemgrs" >= 5 and "1stgenactivemgrs" < 10) then 175
-                  when("1stgenactivemgrs" >= 10 and "1stgenactivemgrs" < 15) then 125
-                  when("1stgenactivemgrs" >= 15 and "1stgenactivemgrs" < 20) then 75
-                  when("1stgenactivemgrs" >= 20 and "1stgenactivemgrs" < 25) then 25
-                  when("1stgenactivemgrs" >= 25) then 0
+              when(qualificationlevel = 2) then
+                case when(("1st Gen Active Mgrs" >= 0 and "1st Gen Active Mgrs" < 5) or "1st Gen Active Mgrs" is null) then 225
+                  when("1st Gen Active Mgrs" >= 5 and "1st Gen Active Mgrs" < 10) then 175
+                  when("1st Gen Active Mgrs" >= 10 and "1st Gen Active Mgrs" < 15) then 125
+                  when("1st Gen Active Mgrs" >= 15 and "1st Gen Active Mgrs" < 20) then 75
+                  when("1st Gen Active Mgrs" >= 20 and "1st Gen Active Mgrs" < 25) then 25
+                  when("1st Gen Active Mgrs" >= 25) then 0
                 end
-              when(qualificationlevel = 2 or qualificationlevel = 3) then
-                case when(("1stgenactivemgrs" >= 0 and "1stgenactivemgrs" < 5) or "1stgenactivemgrs" is null) then 300
-                  when("1stgenactivemgrs" >= 5 and "1stgenactivemgrs" < 10) then 240
-                  when("1stgenactivemgrs" >= 10 and "1stgenactivemgrs" < 15) then 180
-                  when("1stgenactivemgrs" >= 15 and "1stgenactivemgrs" < 20) then 120
-                  when("1stgenactivemgrs" >= 20 and "1stgenactivemgrs" < 25) then 60
-                  when("1stgenactivemgrs" >= 26) then 0
+              when(qualificationlevel = 3) then
+                case when(("1st Gen Active Mgrs" >= 0 and "1st Gen Active Mgrs" < 5) or "1st Gen Active Mgrs" is null) then 300
+                  when("1st Gen Active Mgrs" >= 5 and "1st Gen Active Mgrs" < 10) then 240
+                  when("1st Gen Active Mgrs" >= 10 and "1st Gen Active Mgrs" < 15) then 180
+                  when("1st Gen Active Mgrs" >= 15 and "1st Gen Active Mgrs" < 20) then 120
+                  when("1st Gen Active Mgrs" >= 20 and "1st Gen Active Mgrs" < 25) then 60
+                  when("1st Gen Active Mgrs" >= 25) then 0
                 end
-            end) as "Req CC Full Earnings",
-          max(case when (qualificationlevel = 1 or qualificationlevel = 2 or qualificationlevel = 3)
-          then
-            case when ("4ccactive" = 'true' and mcc.totalcc >= 50 and qualificationendperiod >= current_date and currentperiod = fd.processingdate)
-            then ('Level ' + coalesce(qualificationlevel , '') + ' - Qualified' )
-            else ('Level ' + coalesce(qualificationlevel , '') + ' - Not Qualified' ) end
-          else 'Not Qualified' end) as "Status",
-          max(case when currentperiod = mcc.processingdate then "1stgenactivemgrs" end) as "1st Gen Active Mgrs",
-          max(case when currentperiod = mcc.processingdate then totalcc end) as "Total CC",
-          max(case when previousperiod =mcc.processingdate then "1stgenactivemgrs" end) as "(Period-1) 1st Gen Active Mgrs",
-          max(case when previousperiod =mcc.processingdate then totalcc end) as "(Period-1) Total CC",
-          max(case when priortopreviousperiod =mcc.processingdate then "1stgenactivemgrs" end) as "(Period-2) 1st Gen Active Mgrs",
-          max(case when priortopreviousperiod =mcc.processingdate then totalcc end) as "(Period-2) Total CC"
+            end as "Req CC Full Earnings",
+          f."Status",
+          f."1st Gen Active Mgrs",
+          f."Total CC",
+          f."(Period-1) 1st Gen Active Mgrs",
+          f."(Period-1) Total CC",
+          f."(Period-2) 1st Gen Active Mgrs",
+          f."(Period-2) Total CC"
           from
           forever2drive fd
-          join monthycc mcc on fd.fboid = mcc.distributorid
-          and fd.opco = mcc.opco
+          join final_cte f on fd.fboid = f.fboid
+          and fd.opco = f.opco
           where
-          to_date(extract(year from qualificationstartperiod) || '-' || lpad(extract(month from qualificationstartperiod),2,0) || '-01','YYYY-MM-DD')>=
-          {% if vw_forever2drive_status.qualification_start_period_param._is_filtered %}
-            {% if vw_forever2drive_status.qualification_start_period_param._parameter_value == "'current month - 35 months'" %}
-            to_date(extract(year from(dateadd('month',-35,current_date))) || '-' || lpad(extract(month from(dateadd('month',-35,current_date))),2,0) || '-01', 'YYYY-MM-DD')
+            {% if vw_forever2drive_status.qualification_expiry_period_start_param._is_filtered == true
+              and vw_forever2drive_status.qualification_expiry_period_end_param._is_filtered == false %}
+                qualificationendperiod = last_day(to_date('01-' || {{vw_forever2drive_status.qualification_expiry_period_start_param._parameter_value}},'DD-MM-YYYY'))
+            {% elsif vw_forever2drive_status.qualification_expiry_period_start_param._is_filtered == false
+              and vw_forever2drive_status.qualification_expiry_period_end_param._is_filtered == true %}
+                qualificationendperiod = last_day(to_date('01-' || {{vw_forever2drive_status.qualification_expiry_period_end_param._parameter_value}},'DD-MM-YYYY'))
+            {% elsif (vw_forever2drive_status.qualification_expiry_period_start_param._is_filtered == true
+              and vw_forever2drive_status.qualification_expiry_period_end_param._is_filtered == true ) %}
+                qualificationendperiod
+                  {% if vw_forever2drive_status.qualification_expiry_period_start_param._parameter_value == "'Current Period'" %}
+                    >= trunc(date_trunc('month',current_date))
+                  {% else %}
+                    >= last_day(to_date('01-' || {{vw_forever2drive_status.qualification_expiry_period_start_param._parameter_value}},'DD-MM-YYYY'))
+                  {% endif %}
+              and qualificationendperiod
+                  {% if vw_forever2drive_status.qualification_expiry_period_end_param._parameter_value == "'Current Period + 35 periods'" %}
+                    <= last_day(dateadd(month,35,current_date))
+                  {% else %}
+                    <= last_day(to_date('01-' || {{vw_forever2drive_status.qualification_expiry_period_end_param._parameter_value}},'DD-MM-YYYY'))
+                  {% endif %}
             {% else %}
-            to_date(SUBSTRING({{vw_forever2drive_status.qualification_start_period_param._parameter_value}},4,4) +'-'+
-            SUBSTRING({{vw_forever2drive_status.qualification_start_period_param._parameter_value}},1,2) +'-'+ '-01','YYYY-MM-DD')
+              qualificationendperiod >= trunc(date_trunc('month',current_date))
+              and qualificationendperiod <= last_day(dateadd(month,35,current_date))
             {% endif %}
-          {% else %}
-            to_date(extract(year from(dateadd('month',-35,current_date))) || '-' || lpad(extract(month from(dateadd('month',-35,current_date))),2,0) || '-01', 'YYYY-MM-DD')
-          {% endif %}
-          and
-          {% if vw_forever2drive_status.qualification_end_period_param._is_filtered %}
-          lpad(extract(month from qualificationendperiod),2,0) || '-' ||extract(year from qualificationendperiod) =
-          {{vw_forever2drive_status.qualification_end_period_param._parameter_value}}
-          {% else %}
-          1=1
-          {% endif %}
-          group by 1,2,3,4,5,6,7,8,9 ;;
+          --group by 1,2,3,4,5,6,7,8,9,10
+          ;;
   }
 
   measure: count {
     type: count
   }
 
-  parameter: parameter_period {
+  filter: parameter_period {
     type: string
-    allowed_value: {label:"Current Period" value:"Current Period" }
     suggest_explore: forever2drive_suggestion
     suggest_dimension: dim_monthlycc.period
   }
@@ -129,13 +172,13 @@ view: vw_forever2drive_status {
     suggest_dimension: dim_monthlycc.opco
   }
 
-  parameter: qualification_start_period_param {
+  parameter: qualification_expiry_period_start_param {
     type: string
-    suggest_explore: forever2drive_qualificationstartperiod_suggestion
-    suggest_dimension: dim_monthlycc.qualification_start_period
+    suggest_explore: forever2drive_qualificationendperiod_suggestion
+    suggest_dimension: dim_monthlycc.qualification_end_period
   }
 
-  parameter: qualification_end_period_param {
+  parameter: qualification_expiry_period_end_param {
     type: string
     suggest_explore: forever2drive_qualificationendperiod_suggestion
     suggest_dimension: dim_monthlycc.qualification_end_period
@@ -236,6 +279,13 @@ view: vw_forever2drive_status {
     sql: ${TABLE}."Req CC Full Earnings" ;;
   }
 
+  dimension: earned_amount {
+    type: number
+    label: "Earned Amount"
+    sql: ${TABLE}."Earned Amount" ;;
+    value_format: "#,##0.000"
+  }
+
   dimension: status {
     type: string
     label: "Status"
@@ -306,6 +356,7 @@ view: vw_forever2drive_status {
       req_cc_full_earnings,
       status,
       4cc_active,
+      earned_amount,
       1st_gen_active_mgrs,
       total_cc,
       period1_1st_gen_active_mgrs,
@@ -318,8 +369,8 @@ view: vw_forever2drive_status {
       fbo_id_format3,
       member_opco_param,
       qualifying_opco_param,
-      qualification_start_period_param,
-      qualification_end_period_param
+      qualification_expiry_period_start_param,
+      qualification_expiry_period_end_param
     ]
   }
 }

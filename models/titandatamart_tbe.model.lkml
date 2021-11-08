@@ -18,6 +18,22 @@ persist_with: titandatamart_tbe_default_datagroup
 
 explore: downlinememberdetails {}
 
+
+
+explore: member_details {
+  hidden: yes
+  view_name: dim_member
+  join: dim_location {
+    type: inner
+    relationship: one_to_one
+    sql_on: ${dim_member.newexternallocationid} = ${dim_location.externallocationid} ;;
+  }
+  access_filter: {
+    field: dim_member.opco
+    user_attribute: operatingcountry
+  }
+}
+
 explore: fact_cb600ccindownline {
   view_name: fact_cb600ccindownline
   sql_always_where: ISNULL(${isdelete},'') != 'D' ;;
@@ -190,6 +206,7 @@ explore: new_supervisor {
   fields: [dim_levels.key,vw_new_supervisor.detail*]
 }
 
+
 explore: forever2drive_status {
   view_name: vw_forever2drive_status
   label: "Forever2Drive Status"
@@ -259,6 +276,6 @@ explore: forever2drive_qualificationstartperiod_suggestion {
 
 explore: forever2drive_qualificationendperiod_suggestion {
   view_name: dim_monthlycc
-  sql_always_where: ${dim_monthlycc.earned_incentive_expiration_date} > CURRENT_DATE and
-    ${dim_monthlycc.earned_incentive_expiration_date} <= dateadd('month',+35,current_date)   ;;
+  sql_always_where: ${dim_monthlycc.earned_incentive_expiration_date} > trunc(date_trunc('month',current_date)) and
+    ${dim_monthlycc.earned_incentive_expiration_date} <= dateadd('month',35,last_day(current_date))   ;;
 }
