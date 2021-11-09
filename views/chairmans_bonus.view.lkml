@@ -299,7 +299,7 @@ view: chairmans_bonus {
     sql: ${TABLE}.cb_mgr_lines ;;
     label: "CB Mgr lines"
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6811?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6491?FBO+ID={{fbo_id._value}}&Period={{_filters['chairmans_bonus.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
