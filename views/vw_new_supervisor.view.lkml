@@ -19,7 +19,7 @@ view: vw_new_supervisor {
         fem.distributorid = mem1.distributorid
         and fem.distributorid = replace(replace({{fboid_param._parameter_value}},'-',''),' ','')
         and mem1.isdelete <>'D' and isnull(fem.isdelete != 'D')
-        left join prod2aggregation_tbe.fact_emnewsupervisors_new supervisor
+        left join prod2aggregation_tbe.fact_emnewsupervisors supervisor
         on fem.distributorid = supervisor.distributorid
         and fem.period = supervisor.period and isnull(supervisor.isdelete != 'D')
         left join prod2.dim_member mem2 on

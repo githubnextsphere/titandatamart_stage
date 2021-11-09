@@ -170,7 +170,7 @@ view: vw_chairmanbonus_cc_summary_by_country {
     sql: ${TABLE}."new non-manager cc" ;;
     html: <p style="text-align:center;">
       {% if value != '0.000' %}
-      <a href="https://foreverliving.looker.com/dashboards-next/6343?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairmanbonus_cc_summary_by_country.parameter_year']}}&OpCO={{opco._value}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+      <a href="https://foreverliving.looker.com/dashboards-next/6903?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairmanbonus_cc_summary_by_country.parameter_year']}}&OpCO={{opco._value}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
       {% else %}
       {{rendered_value}}
       {% endif %}

@@ -140,7 +140,7 @@ JOIN prod2aggregation_tbe.fact_cbqualification cbq on
     sql: ${TABLE}.open_group_cc ;;
     value_format: "#,##0.000"
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6304?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -153,7 +153,7 @@ JOIN prod2aggregation_tbe.fact_cbqualification cbq on
     sql: ${TABLE}.open_group_cc_global ;;
     value_format: "#,##0.000"
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6304?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -165,7 +165,7 @@ JOIN prod2aggregation_tbe.fact_cbqualification cbq on
     sql: ${TABLE}.new_cc_global_capped ;;
     value_format: "#,##0.000"
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6304?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -177,7 +177,7 @@ JOIN prod2aggregation_tbe.fact_cbqualification cbq on
     sql: ${TABLE}.new_cc_qc ;;
     value_format: "#,##0.000"
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6304?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -189,7 +189,7 @@ JOIN prod2aggregation_tbe.fact_cbqualification cbq on
     sql: ${TABLE}.new_cc_oqc ;;
     value_format: "#,##0.000"
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6304?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -205,7 +205,7 @@ JOIN prod2aggregation_tbe.fact_cbqualification cbq on
     label: "600CC Mgr Lines"
     sql: ${TABLE}."600cc_mgr_lines" ;;
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6325?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6489?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -222,7 +222,7 @@ JOIN prod2aggregation_tbe.fact_cbqualification cbq on
     label: "CB Mgr lines"
     sql: ${TABLE}.cb_mgr_lines ;;
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6303?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6491?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
@@ -233,7 +233,7 @@ JOIN prod2aggregation_tbe.fact_cbqualification cbq on
     label: "CB Mgr Count"
     sql: ${TABLE}.cb_mgr_count ;;
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6321?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+    <a href="https://foreverliving.looker.com/dashboards-next/6490?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
     {% else %}
     {{rendered_value}}
     {% endif %} ;;
