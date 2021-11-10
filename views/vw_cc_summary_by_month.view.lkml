@@ -20,15 +20,11 @@ view: vw_cc_summary_by_month {
               then em.mgrfirstmonthtotalcc
               else 0
           end as "totalccmtd",
-          case when {% parameter parameter_year  %} = 'Current Period'
-          then EXTRACT(YEAR FROM CURRENT_DATE)
-          when {% parameter parameter_year  %} = 'Last Period'
-          then EXTRACT(YEAR FROM CURRENT_DATE) -1
-          end AS yearfilter
+          {% parameter parameter_year  %} AS yearfilter
           from prod2.dim_monthlycc mon
           join prod2aggregation_tbe.fact_emqualification em
           on mon.distributorid = em.distributorid
-          and mon.isdelete!= 'D' and em.isdelete !='D'
+          and mon.isdelete != 'D' and em.isdelete != 'D'
           where
           em.distributorid = Replace(Replace({% parameter parameter_fboid %},'-',''),' ','')
           and processingdate between concat(yearfilter-1,'-05-01') and concat(yearfilter,'-04-30')
@@ -69,7 +65,7 @@ view: vw_cc_summary_by_month {
       select ROW_NUMBER() OVER (PARTITION BY cc_month Order BY totalccmtd desc,newccmonthtodate desc) as rownum, * from monthcte
       order by  ccyear,ccmonth
       )
-      select cc_month as "Month",newccmonthtodate as "New Non-Manager CC", totalccmtd as "Total CC",
+      select ccmonth, ccyear, cc_month as "Month", newccmonthtodate as "New Non-Manager CC", totalccmtd as "Total CC",
       ROW_NUMBER() OVER (ORDER BY ccyear,ccmonth) as sortorder
       from monthdata
       where rownum = 1
@@ -82,10 +78,11 @@ view: vw_cc_summary_by_month {
   }
 
   parameter: parameter_year {
-    type: string
+    type: number
     label: "Period"
-    allowed_value: { value: "Current Period" label:"May-2020 to April-2021"}
-    default_value: "Current Period"
+    allowed_value: { value: "2021" label:"May-2020 to April-2021"}
+    allowed_value: { value: "2022" label:"May-2021 to April-2022"}
+    default_value: "2022"
   }
 
   parameter: parameter_fboid {
@@ -114,6 +111,34 @@ view: vw_cc_summary_by_month {
     sql: ${total_cc} ;;
   }
 
+  dimension: fboid {
+    type: string
+    sql: {% parameter parameter_fboid %} ;;
+  }
+
+  dimension: opco {
+    type: string
+    sql: {% parameter parameter_OpCO %} ;;
+  }
+
+  dimension: ccmonth {
+    type: string
+    sql: ${TABLE}.ccmonth ;;
+  }
+
+  dimension: ccyear {
+    type: string
+    sql: ${TABLE}.ccyear ;;
+  }
+
+  dimension: period {
+    type: string
+    sql: case when ${month} = 'Total' then
+              case when {% parameter parameter_year %} = '2021'then 'May-2020 to April-2021'
+              else 'May-2021 to April-2022' end
+          else ${ccmonth} || '-' || ${ccyear} end;;
+  }
+
   dimension: month {
     type: string
     label: "Month"
@@ -135,11 +160,19 @@ view: vw_cc_summary_by_month {
     sql: ${TABLE}."new non-manager cc" ;;
     value_format: "#,##0.000"
     html: {% if sortorder._value == 13 %}
-          <div style = "font-weight: bold;">
-          {{rendered_value}}
-          </div>
+            <div style = "font-weight: bold;">
+              {% if value != 0.000 %}
+              <a href="https://foreverliving.looker.com/dashboards-next/6747?FBO%20ID={{fboid._value}}&OpCO={{opco._value}}&Period={{period._value}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+              {% else %}
+              {{rendered_value}}
+              {% endif %}
+            </div>
           {% else %}
-          {{rendered_value}}
+              {% if value != 0.000 %}
+              <a href="https://foreverliving.looker.com/dashboards-next/6747?FBO%20ID={{fboid._value}}&OpCO={{opco._value}}&Period={{period._value}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+              {% else %}
+              {{rendered_value}}
+              {% endif %}
           {% endif %}  ;;
   }
 

@@ -109,7 +109,7 @@ view: vw_chairman_bonus_manager_lines {
     label: "Downline CB Managers"
     sql: ${TABLE}."downline cb managers" ;;
     html:{% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6321?FBO+ID={{cb_mgr_id._value}}&Period={{_filters['vw_chairman_bonus_manager_lines.parameter_year']}}" target="_blank">
+    <a href="https://foreverliving.looker.com/dashboards-next/6490?FBO+ID={{cb_mgr_id._value}}&Period={{_filters['vw_chairman_bonus_manager_lines.parameter_year']}}" target="_blank">
     <font color="blue" style="white-space: nowrap;">
     <u> {{ rendered_value  }} </u>
     </font>

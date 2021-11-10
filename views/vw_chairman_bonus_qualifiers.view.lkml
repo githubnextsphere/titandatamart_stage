@@ -31,17 +31,17 @@ view: vw_chairman_bonus_qualifiers {
         cbq. mgrfirstmonthopengroupcc mgr_1st_month_open_group_cc,
         cbq. mgrfirstmonthtotalcc as mgr_1st_month_total_cc
       from prod2aggregation_tbe.fact_cbindownline fc
-join prod2.dim_member mem on
-  mem.distributorid = fc.cb_id
-  and isnull(mem.isdelete,'')!='D' and isnull(fc.isdelete,'') != 'D'
-JOIN prod2aggregation_tbe.fact_cbqualification cbq on
-  cbq.distributorid = fc.cb_id
-  and isnull(cbq.isdelete,'')!='D'
-   and cbq.period = {% parameter parameter_year  %}
-      WHERE
+      join prod2.dim_member mem on
+        mem.distributorid = fc.cb_id
+        and fc.isdelete != 'D' and mem.isdelete != 'D'
+      JOIN prod2aggregation_tbe.fact_cbqualification cbq on
+        cbq.distributorid = fc.cb_id
+        and cbq.isdelete != 'D'
+         and cbq.period = {% parameter parameter_year  %}
+            WHERE
           fc.distributorid = Replace(Replace({{ fboid_param._parameter_value }},'-',''),' ','')
           and fc.period = {% parameter parameter_year  %}
- ;;
+          ;;
   }
 
   measure: count {
@@ -140,165 +140,165 @@ JOIN prod2aggregation_tbe.fact_cbqualification cbq on
     sql: ${TABLE}.open_group_cc ;;
     value_format: "#,##0.000"
     html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
-    {% else %}
-    {{rendered_value}}
-    {% endif %} ;;
+          <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+          {% else %}
+          {{rendered_value}}
+          {% endif %} ;;
 
-  }
+    }
 
-  dimension: open_group_cc_global {
-    type: number
-    label: "Open Group CC Global"
-    sql: ${TABLE}.open_group_cc_global ;;
-    value_format: "#,##0.000"
-    html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
-    {% else %}
-    {{rendered_value}}
-    {% endif %} ;;
-  }
+    dimension: open_group_cc_global {
+      type: number
+      label: "Open Group CC Global"
+      sql: ${TABLE}.open_group_cc_global ;;
+      value_format: "#,##0.000"
+      html: {% if value != 0 %}
+            <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+            {% else %}
+            {{rendered_value}}
+            {% endif %} ;;
+    }
 
-  dimension: new_cc_global_capped {
-    type: number
-    label: "New CC Global Capped"
-    sql: ${TABLE}.new_cc_global_capped ;;
-    value_format: "#,##0.000"
-    html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
-    {% else %}
-    {{rendered_value}}
-    {% endif %} ;;
-  }
+    dimension: new_cc_global_capped {
+      type: number
+      label: "New CC Global Capped"
+      sql: ${TABLE}.new_cc_global_capped ;;
+      value_format: "#,##0.000"
+      html: {% if value != 0 %}
+            <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+            {% else %}
+            {{rendered_value}}
+            {% endif %} ;;
+    }
 
-  dimension: new_cc_qc {
-    type: number
-    label: "New CC QC"
-    sql: ${TABLE}.new_cc_qc ;;
-    value_format: "#,##0.000"
-    html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
-    {% else %}
-    {{rendered_value}}
-    {% endif %} ;;
-  }
+    dimension: new_cc_qc {
+      type: number
+      label: "New CC QC"
+      sql: ${TABLE}.new_cc_qc ;;
+      value_format: "#,##0.000"
+      html: {% if value != 0 %}
+            <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+            {% else %}
+            {{rendered_value}}
+            {% endif %} ;;
+    }
 
-  dimension: new_cc_oqc {
-    type: number
-    label: "New CC OQC"
-    sql: ${TABLE}.new_cc_oqc ;;
-    value_format: "#,##0.000"
-    html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
-    {% else %}
-    {{rendered_value}}
-    {% endif %} ;;
-  }
+    dimension: new_cc_oqc {
+      type: number
+      label: "New CC OQC"
+      sql: ${TABLE}.new_cc_oqc ;;
+      value_format: "#,##0.000"
+      html: {% if value != 0 %}
+            <a href="https://foreverliving.looker.com/dashboards-next/6484?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+            {% else %}
+            {{rendered_value}}
+            {% endif %} ;;
+    }
 
-  dimension: level_achieved {
-    type: number
-    sql: ${TABLE}.level_achieved ;;
-  }
+    dimension: level_achieved {
+      type: number
+      sql: ${TABLE}.level_achieved ;;
+    }
 
-  dimension: 600cc_mgr_lines {
-    type: number
-    label: "600CC Mgr Lines"
-    sql: ${TABLE}."600cc_mgr_lines" ;;
-    html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6489?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
-    {% else %}
-    {{rendered_value}}
-    {% endif %} ;;
-  }
+    dimension: 600cc_mgr_lines {
+      type: number
+      label: "600CC Mgr Lines"
+      sql: ${TABLE}."600cc_mgr_lines" ;;
+      html: {% if value != 0 %}
+            <a href="https://foreverliving.looker.com/dashboards-next/6489?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+            {% else %}
+            {{rendered_value}}
+            {% endif %} ;;
+    }
 
-  dimension: 600cc_mgr_count {
-    type: number
-    label: "600CC Mgr Count"
-    sql: ${TABLE}."600cc_mgr_count" ;;
-  }
+    dimension: 600cc_mgr_count {
+      type: number
+      label: "600CC Mgr Count"
+      sql: ${TABLE}."600cc_mgr_count" ;;
+    }
 
-  dimension: cb_mgr_lines {
-    type: number
-    label: "CB Mgr lines"
-    sql: ${TABLE}.cb_mgr_lines ;;
-    html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6491?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
-    {% else %}
-    {{rendered_value}}
-    {% endif %} ;;
-  }
+    dimension: cb_mgr_lines {
+      type: number
+      label: "CB Mgr lines"
+      sql: ${TABLE}.cb_mgr_lines ;;
+      html: {% if value != 0 %}
+            <a href="https://foreverliving.looker.com/dashboards-next/6491?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+            {% else %}
+            {{rendered_value}}
+            {% endif %} ;;
+    }
 
-  dimension: cb_mgr_count {
-    type: number
-    label: "CB Mgr Count"
-    sql: ${TABLE}.cb_mgr_count ;;
-    html: {% if value != 0 %}
-    <a href="https://foreverliving.looker.com/dashboards-next/6490?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
-    {% else %}
-    {{rendered_value}}
-    {% endif %} ;;
-  }
+    dimension: cb_mgr_count {
+      type: number
+      label: "CB Mgr Count"
+      sql: ${TABLE}.cb_mgr_count ;;
+      html: {% if value != 0 %}
+            <a href="https://foreverliving.looker.com/dashboards-next/6490?FBO+ID={{fbo_id._value}}&Period={{_filters['vw_chairman_bonus_qualifiers.parameter_year']}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+            {% else %}
+            {{rendered_value}}
+            {% endif %} ;;
+    }
 
-  dimension: mgr_first_month {
-    type: number
-    sql: ${TABLE}.mgr_first_month ;;
-    value_format: "####-##"
-  }
+    dimension: mgr_first_month {
+      type: number
+      sql: ${TABLE}.mgr_first_month ;;
+      value_format: "####-##"
+    }
 
-  dimension: mgr_1st_month_open_group_cc {
-    type: number
-    label: "Mgr 1st Month Open Group CC"
-    sql: ${TABLE}.mgr_1st_month_open_group_cc ;;
-    value_format: "#,##0.000"
-  }
+    dimension: mgr_1st_month_open_group_cc {
+      type: number
+      label: "Mgr 1st Month Open Group CC"
+      sql: ${TABLE}.mgr_1st_month_open_group_cc ;;
+      value_format: "#,##0.000"
+    }
 
-  dimension: mgr_1st_month_total_cc {
-    type: number
-    label: "Mgr 1st Month Total CC"
-    sql: ${TABLE}.mgr_1st_month_total_cc ;;
-    value_format: "#,##0.000"
-  }
+    dimension: mgr_1st_month_total_cc {
+      type: number
+      label: "Mgr 1st Month Total CC"
+      sql: ${TABLE}.mgr_1st_month_total_cc ;;
+      value_format: "#,##0.000"
+    }
 
-  parameter: fboid_param {
-    label:"FBO_ID"
-    type: string
-  }
+    parameter: fboid_param {
+      label:"FBO_ID"
+      type: string
+    }
 
-  parameter: parameter_year {
-    label: "Period"
-    type: number
-    allowed_value: { value: "2020"}
-    allowed_value: { value: "2021" }
-    allowed_value: {value:"2022"}
-    default_value: "2022"
-  }
+    parameter: parameter_year {
+      label: "Period"
+      type: number
+      allowed_value: { value: "2022"}
+      allowed_value: { value: "2021" }
+      allowed_value: { value: "2020" }
+      default_value: "2022"
+    }
 
-  set: detail {
-    fields: [
-      fbo_id,
-      fbo_name,
-      level,
-      phone,
-      email,
-      period,
-      city,
-      opco,
-      home_country,
-      qualifying_country,
-      total_cc,
-      open_group_cc,
-      open_group_cc_global,
-      new_cc_global_capped,
-      new_cc_qc,
-      new_cc_oqc,
-      level_achieved,
-      600cc_mgr_lines,
-      600cc_mgr_count,
-      cb_mgr_lines,
-      cb_mgr_count,
-      mgr_first_month,
-      mgr_1st_month_open_group_cc,
-      mgr_1st_month_total_cc
-    ]
+    set: detail {
+      fields: [
+        fbo_id,
+        fbo_name,
+        level,
+        phone,
+        email,
+        period,
+        city,
+        opco,
+        home_country,
+        qualifying_country,
+        total_cc,
+        open_group_cc,
+        open_group_cc_global,
+        new_cc_global_capped,
+        new_cc_qc,
+        new_cc_oqc,
+        level_achieved,
+        600cc_mgr_lines,
+        600cc_mgr_count,
+        cb_mgr_lines,
+        cb_mgr_count,
+        mgr_first_month,
+        mgr_1st_month_open_group_cc,
+        mgr_1st_month_total_cc
+      ]
+    }
   }
-}

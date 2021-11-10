@@ -164,6 +164,18 @@ explore: em_cc_summary_by_country {
   label: "Eagle Manager CC Summary By Country"
 }
 
+
+explore: vw_cc_summary_by_month {
+  view_name: vw_cc_summary_by_month
+  join: fact_emmgrsindownline {
+    type: inner
+    relationship: one_to_one
+    sql_on: ${vw_cc_summary_by_month.parameter_fboid} = ${fact_emmgrsindownline.mgr_id}  ;;
+  }
+  label: "CC Summary by Month"
+}
+
+
 explore: em_4cc_active_drill_down {
   label: "Eagle Manager 4CC Active"
   view_name: vw_em_4cc_active_drill_down

@@ -166,7 +166,7 @@ view: vw_em_cc_summary_by_country {
     html:
     <p style="text-align:center;">
       {% if value != '0.000' %}
-      <a href="https://foreverliving.looker.com/dashboards-next/6237?Period={{period._value}}&FBO+ID={{fbo_id._value}}&OpCO={{opco._value}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+      <a href="https://foreverliving.looker.com/dashboards-next/6905?Period={{period._value}}&FBO+ID={{fbo_id._value}}&OpCO={{opco._value}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
       {% else %}
       {{rendered_value}}
          {% endif %}
@@ -188,7 +188,7 @@ view: vw_em_cc_summary_by_country {
     description: "Total CC accumulated during the incentive period included up to 100 New CC from countries outside the qualifying country"
     html:   <p style="text-align:center;">
       {% if value != '0.000' %}
-      <a href="https://foreverliving.looker.com/dashboards-next/6237?Period={{period._value}}&FBO+ID={{fbo_id._value}}&OpCO={{opco._value}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
+      <a href="https://foreverliving.looker.com/dashboards-next/6905?Period={{period._value}}&FBO+ID={{fbo_id._value}}&OpCO={{opco._value}}" target="_blank"><font color="blue" style="white-space: nowrap;"> <u> {{ rendered_value  }} </u> </font></a>
       {% else %}
       {{rendered_value}}
          {% endif %}
